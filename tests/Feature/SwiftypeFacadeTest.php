@@ -1,4 +1,5 @@
 <?php
+
 namespace Loonpwn\Swiftype\Tests\Feature;
 
 use Loonpwn\Swiftype\Facades\Swiftype;
@@ -6,7 +7,6 @@ use Loonpwn\Swiftype\Tests\BaseSwiftypeTest;
 
 class SwiftypeFacadeTest extends BaseSwiftypeTest
 {
-
     /**
      * A basic test example.
      *

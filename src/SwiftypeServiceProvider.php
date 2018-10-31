@@ -27,15 +27,15 @@ class SwiftypeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/swiftype.php', 'swiftype');
+        $this->mergeConfigFrom(__DIR__.'/../config/swiftype.php', 'swiftype');
 
         // Register the service the package provides.
-        $this->app->singleton('swiftype', function() {
+        $this->app->singleton('swiftype', function () {
             return new Api();
         });
 
         // Register the service the package provides.
-        $this->app->bind('swiftype-engine', function() {
+        $this->app->bind('swiftype-engine', function () {
             return new Engine();
         });
     }
@@ -59,7 +59,7 @@ class SwiftypeServiceProvider extends ServiceProvider
     {
         // Publishing the configuration file.
         $this->publishes([
-	        __DIR__ . '/../config/swiftype.php' => config_path('swiftype.php'),
+            __DIR__.'/../config/swiftype.php' => config_path('swiftype.php'),
         ], 'swiftype.config');
 
         // Registering package commands.

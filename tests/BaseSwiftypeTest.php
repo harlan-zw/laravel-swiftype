@@ -1,24 +1,22 @@
 <?php
+
 namespace Loonpwn\Swiftype\Tests;
 
-use Loonpwn\Swiftype\Api;
-use Loonpwn\Swiftype\Engine;
 use Loonpwn\Swiftype\Facades\Swiftype;
 use Loonpwn\Swiftype\Facades\SwiftypeEngine;
 
-class BaseSwiftypeTest  extends \Orchestra\Testbench\TestCase {
+class BaseSwiftypeTest extends \Orchestra\Testbench\TestCase
+{
+    protected function getPackageAliases($app)
+    {
+        return [
+            'Swiftype' => 'Loonpwn\Swiftype\Api',
+            'SwiftypeEngine' => 'Loonpwn\Swiftype\Engine',
+        ];
+    }
 
-	protected function getPackageAliases($app)
-	{
-		return [
-			'Swiftype' => 'Loonpwn\Swiftype\Api',
-			'SwiftypeEngine' => 'Loonpwn\Swiftype\Engine'
-		];
-	}
-
-	protected function getPackageProviders($app)
-	{
-		return ['Loonpwn\Swiftype\SwiftypeServiceProvider'];
-	}
-
+    protected function getPackageProviders($app)
+    {
+        return ['Loonpwn\Swiftype\SwiftypeServiceProvider'];
+    }
 }

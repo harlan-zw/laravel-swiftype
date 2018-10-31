@@ -24,5 +24,5 @@ return [
     |
     */
     'apiPrivateKey' => env('SWIFTYPE_API_PRIVATE_KEY'),
-    'hostIdentifier' => env('SWIFTYPE_HOST_IDENTIFIER')
+    'hostIdentifier' => env('SWIFTYPE_HOST_IDENTIFIER'),
 ];
