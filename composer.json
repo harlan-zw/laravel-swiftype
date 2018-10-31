@@ -1,7 +1,7 @@
 {
     "name": "loonpwn/laravel-swiftype",
-    "description": ":description",
-    "license": "license",
+    "description": "Swiftype Integration for Laravel",
+    "license": "MIT",
     "authors": [
         {
             "name": "Harlan Wilton",
