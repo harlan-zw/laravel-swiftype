@@ -1,0 +1,44 @@
+{
+    "name": "loonpwn/laravel-swiftype",
+    "description": ":description",
+    "license": "license",
+    "authors": [
+        {
+            "name": "Harlan Wilton",
+            "email": "harlan@harlanzw.com",
+            "homepage": "https://harlanzw.com"
+        }
+    ],
+    "homepage": "https://github.com/loonpwn/swiftype",
+    "keywords": ["Laravel", "Swiftype"],
+    "require": {
+        "illuminate/support": "~5",
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~7.0",
+        "mockery/mockery": "^1.1",
+        "orchestra/testbench": "~3.0",
+        "sempro/phpunit-pretty-print": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Loonpwn\\Swiftype\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Loonpwn\\Swiftype\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Loonpwn\\Swiftype\\SwiftypeServiceProvider"
+            ],
+            "aliases": {
+                "Swiftype": "Loonpwn\\Swiftype\\Facades\\Swiftype"
+            }
+        }
+    }
+}
