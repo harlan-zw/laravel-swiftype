@@ -3,6 +3,7 @@
 namespace Loonpwn\Swiftype;
 
 use Illuminate\Support\ServiceProvider;
+use Loonpwn\Swiftype\Console\Commands\PurgeAllDocuments;
 
 class SwiftypeServiceProvider extends ServiceProvider
 {
@@ -63,6 +64,6 @@ class SwiftypeServiceProvider extends ServiceProvider
         ], 'swiftype-config');
 
         // Registering package commands.
-        // $this->commands([]);
+         $this->commands([ PurgeAllDocuments::class ]);
     }
 }
