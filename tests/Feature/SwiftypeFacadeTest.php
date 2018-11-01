@@ -28,5 +28,4 @@ class SwiftypeFacadeTest extends BaseSwiftypeTest
         $this->assertArrayHasKey('results', $engines, 'Can List engines');
         var_dump('Found engines', $engines['results']);
     }
-
 }

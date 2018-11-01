@@ -7,17 +7,16 @@ use Loonpwn\Swiftype\Facades\SwiftypeEngine;
 
 trait ExistsAsSwiftypeDocument
 {
-
     public static function bootExistsAsSwiftypeDocument()
     {
         static::updating(function ($model) {
             SwiftypeEngine::createOrUpdateDocument($model);
         });
         static::creating(function ($model) {
-	        SwiftypeEngine::createOrUpdateDocument($model);
+            SwiftypeEngine::createOrUpdateDocument($model);
         });
         static::deleting(function ($model) {
-	        SwiftypeEngine::deleteDocument($model);
+            SwiftypeEngine::deleteDocument($model);
         });
     }
 

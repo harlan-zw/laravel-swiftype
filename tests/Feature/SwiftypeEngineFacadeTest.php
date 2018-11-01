@@ -2,7 +2,6 @@
 
 namespace Loonpwn\Swiftype\Tests\Feature;
 
-use Loonpwn\Swiftype\Tests\TestModel;
 use Loonpwn\Swiftype\Facades\SwiftypeEngine;
 use Loonpwn\Swiftype\Tests\BaseSwiftypeTest;
 
@@ -40,6 +39,5 @@ class SwiftypeEngineFacadeTest extends BaseSwiftypeTest
     public function testCreateWorks()
     {
         // @todo
-
     }
 }
