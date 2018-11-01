@@ -2,7 +2,6 @@
 
 namespace Loonpwn\Swiftype;
 
-use Loonpwn\Swiftype\Facades\SwiftypeEngine;
 use Loonpwn\Swiftype\Errors\MissingSwiftypeConfigException;
 
 class Api
@@ -35,17 +34,6 @@ class Api
             'apiUrl' => 'https://'.config('swiftype.hostIdentifier').'.api.swiftype.com/api/as/v1/',
         ]);
         $this->client = new SwiftypeClient($config);
-    }
-
-    /**
-     * Get the engine instance based on the engine name.
-     * @param null $engine
-     *
-     * @return SwiftypeEngine
-     */
-    public function engine($engine = null)
-    {
-        return new SwiftypeEngine($engine);
     }
 
     /**

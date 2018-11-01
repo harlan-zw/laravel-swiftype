@@ -7,7 +7,6 @@ use Loonpwn\Swiftype\Facades\SwiftypeEngine;
 
 trait ExistsAsSwiftypeDocument
 {
-    public static $swiftypeEngine;
 
     public static function bootExistsAsSwiftypeDocument()
     {
@@ -15,10 +14,10 @@ trait ExistsAsSwiftypeDocument
             SwiftypeEngine::createOrUpdateDocument($model);
         });
         static::creating(function ($model) {
-            Swiftype::engine(self::$swiftypeEngine)->createOrUpdateDocument($model);
+	        SwiftypeEngine::createOrUpdateDocument($model);
         });
         static::deleting(function ($model) {
-            Swiftype::engine(self::$swiftypeEngine)->deleteDocument($model);
+	        SwiftypeEngine::deleteDocument($model);
         });
     }
 

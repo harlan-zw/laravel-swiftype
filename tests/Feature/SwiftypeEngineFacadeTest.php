@@ -39,10 +39,7 @@ class SwiftypeEngineFacadeTest extends BaseSwiftypeTest
      */
     public function testCreateWorks()
     {
-        $document = new TestModel();
-        $document->save();
+        // @todo
 
-        $this->assertArrayHasKey('results', $documents, 'We can search engine documents');
-        var_dump('Found documents', $documents['results']);
     }
 }

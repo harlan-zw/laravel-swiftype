@@ -28,4 +28,9 @@ class SwiftypeFacadeTest extends BaseSwiftypeTest
         $this->assertArrayHasKey('results', $engines, 'Can List engines');
         var_dump('Found engines', $engines['results']);
     }
+
+    public function testEngineSelection()
+    {
+	    Swiftype::engine('kintell-search-staging')->listDocuments();
+    }
 }
