@@ -29,8 +29,4 @@ class SwiftypeFacadeTest extends BaseSwiftypeTest
         var_dump('Found engines', $engines['results']);
     }
 
-    public function testEngineSelection()
-    {
-	    Swiftype::engine('kintell-search-staging')->listDocuments();
-    }
 }
