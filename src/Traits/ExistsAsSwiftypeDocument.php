@@ -12,7 +12,7 @@ trait ExistsAsSwiftypeDocument
         static::updating(function ($model) {
             SwiftypeEngine::createOrUpdateDocument($model);
         });
-        static::creating(function ($model) {
+        static::created(function ($model) {
             SwiftypeEngine::createOrUpdateDocument($model);
         });
         static::deleting(function ($model) {
