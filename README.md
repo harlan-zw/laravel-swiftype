@@ -4,7 +4,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/loonpwn/laravel-swiftype.svg?style=flat)](https://packagist.org/packages/loonpwn/laravel-swiftype)
 [![StyleCI](https://github.styleci.io/repos/155632347/shield?branch=master)](https://github.styleci.io/repos/155632347)
 
-This Laravel package provides a synchronization between your Eloquent models and a single Swiftype engine. 
+This Laravel package provides a synchronization between your Eloquent models and a single Swiftype app engine. 
 
 ## Installation
 
