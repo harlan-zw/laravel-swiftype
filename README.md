@@ -4,8 +4,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/loonpwn/laravel-swiftype.svg?style=flat)](https://packagist.org/packages/loonpwn/laravel-swiftype)
 [![StyleCI](https://github.styleci.io/repos/155632347/shield?branch=master)](https://github.styleci.io/repos/155632347)
 
-
-This is where your description should go. Take a look at [contributing.md](contributing.md) to see a to do list.
+This Laravel package provides a synchronization between your Eloquent models and a single Swiftype engine. 
 
 ## Installation
 
@@ -36,7 +35,7 @@ For your models to in sync with Swiftype simply add the trait in.
 `use ExistsAsSwiftypeDocument`
 
 This trait hooks into the creating, updating and deleting events of your model and will send an API request to swiftype
-when they occur. Data will always be kept in sync. 
+when they occur.
 
 
 ## Testing
