@@ -52,7 +52,7 @@ class Engine
      */
     public function deleteDocument($document)
     {
-        $response = $this->client->post('documents', ['json' => [$document->getKey()]]);
+        $response = $this->client->delete('documents', ['json' => [$document->getKey()]]);
 
         return json_decode($response->getBody()->getContents(), true);
     }
