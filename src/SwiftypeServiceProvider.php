@@ -60,7 +60,7 @@ class SwiftypeServiceProvider extends ServiceProvider
         // Publishing the configuration file.
         $this->publishes([
             __DIR__.'/../config/swiftype.php' => config_path('swiftype.php'),
-        ], 'swiftype.config');
+        ], 'swiftype-config');
 
         // Registering package commands.
         // $this->commands([]);

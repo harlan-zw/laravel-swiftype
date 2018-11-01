@@ -12,7 +12,7 @@ This is where your description should go. Take a look at [contributing.md](contr
 Via Composer
 
 ``` bash
-$ composer require loonpwn/laravel-swiftype
+composer require loonpwn/laravel-swiftype
 ```
 
 If you do not run Laravel 5.5 (or higher), then add the service provider in `config/app.php`:
@@ -22,8 +22,21 @@ Loonpwn\Swiftype\SwiftypeServiceProvider::class,
 ```
 
 
-
 ## Usage
+
+In your `.env` file, add the following variables.
+```
+SWIFTYPE_DEFAULT_ENGINE=
+SWIFTYPE_API_PRIVATE_KEY=
+SWIFTYPE_HOST_IDENTIFIER=
+```
+
+For your models to in sync with Swiftype simply add the trait in.
+
+`use ExistsAsSwiftypeDocument`
+
+This trait hooks into the creating, updating and deleting events of your model and will send an API request to swiftype
+when they occur. Data will always be kept in sync. 
 
 
 ## Testing
