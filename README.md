@@ -37,6 +37,29 @@ For your models to in sync with Swiftype simply add the trait in.
 This trait hooks into the creating, updating and deleting events of your model and will send an API request to swiftype
 when they occur.
 
+The package provides some Facades for you to interact with the Swiftype api 
+
+`Swiftype::listEngines()` - Show all engines available
+
+`Swiftype::findEngine($name)` - Find an engine based on name
+
+`Swiftype::createEngine()` - Create a new engine
+
+`Swiftype::authenticated()` - Checks that the authenticated worked 
+
+Accessing SwiftypeEngine will have all requests routed to the engine you've provided as the default.
+
+`SwiftypeEngine::search($query)` - Search documents within the engine
+
+`SwiftypeEngine::createOrUpdateDocument($document)` - Creates a new document, or updates an existing, based on the primary 
+key. This function will use a transformer to make sure the primary key is transformed to just `id`. This takes an
+Eloquent model as the parameter 
+
+`SwiftypeEngine::deleteDocument($document)` - Removes a document. This takes an Eloquent model as the parameter 
+
+`SwiftypeEngine::listDocuments()` - Lists documents that belong to the engine, with pagination.
+
+
 
 ## Testing
 
