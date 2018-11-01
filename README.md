@@ -30,12 +30,19 @@ SWIFTYPE_API_PRIVATE_KEY=
 SWIFTYPE_HOST_IDENTIFIER=
 ```
 
+### Trait
+
+
 For your models to in sync with Swiftype simply add the trait in.
 
 `use ExistsAsSwiftypeDocument`
 
 This trait hooks into the creating, updating and deleting events of your model and will send an API request to swiftype
 when they occur.
+
+### API
+
+#### Swiftype
 
 The package provides some Facades for you to interact with the Swiftype api 
 
@@ -46,6 +53,8 @@ The package provides some Facades for you to interact with the Swiftype api
 `Swiftype::createEngine()` - Create a new engine
 
 `Swiftype::authenticated()` - Checks that the authenticated worked 
+
+#### SwiftypeEngine
 
 Accessing SwiftypeEngine will have all requests routed to the engine you've provided as the default.
 
