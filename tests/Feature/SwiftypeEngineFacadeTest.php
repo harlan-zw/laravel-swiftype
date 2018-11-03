@@ -38,12 +38,12 @@ class SwiftypeEngineFacadeTest extends BaseSwiftypeTest
      */
     public function testPurgeDocuments()
     {
-    	$documents = SwiftypeEngine::purgeAllDocuments();
-	    if (is_array($documents)) {
-		    $this->assertArrayHasKey(0, $documents, 'Purge documents returned a valid response');
-		    var_dump('Deleted documents', $documents);
-	    } else {
-	    	$this->assertTrue($documents);
-	    }
+        $documents = SwiftypeEngine::purgeAllDocuments();
+        if (is_array($documents)) {
+            $this->assertArrayHasKey(0, $documents, 'Purge documents returned a valid response');
+            var_dump('Deleted documents', $documents);
+        } else {
+            $this->assertTrue($documents);
+        }
     }
 }

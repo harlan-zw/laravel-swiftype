@@ -38,6 +38,6 @@ class PurgeAllDocuments extends Command
      */
     public function handle()
     {
-    	SwiftypeEngine::purgeAllDocuments();
+        SwiftypeEngine::purgeAllDocuments();
     }
 }

@@ -64,6 +64,6 @@ class SwiftypeServiceProvider extends ServiceProvider
         ], 'swiftype-config');
 
         // Registering package commands.
-         $this->commands([ PurgeAllDocuments::class ]);
+        $this->commands([PurgeAllDocuments::class]);
     }
 }
