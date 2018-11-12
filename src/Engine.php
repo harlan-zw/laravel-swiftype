@@ -22,9 +22,9 @@ class Engine
      *
      * @return array An array of search results matching the issued query
      */
-    public function search($query)
+    public function search($query, $searchFields)
     {
-        $response = $this->client->get('search', ['query' => ['query' => $query]]);
+        $response = $this->client->get('search', ['query' => ['query' => $query, 'search_fields' => $searchFields]);
 
         return json_decode($response->getBody()->getContents(), true);
     }
