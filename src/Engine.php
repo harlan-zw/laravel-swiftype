@@ -28,7 +28,7 @@ class Engine
 	{
 		$response = $this->client->get('search',
 			[
-				'query' => [
+				'json' => [
 					'query' => $query,
 					'search_fields' => $searchFields
 				]
