@@ -18,20 +18,19 @@ class Engine
     /**
      * Issue a query to an engine within a specific document_type.
      *
+     * @see https://swiftype.com/documentation/app-search/api/search
+     *
      * @param string $query The search query
      *
-     * @param $searchFields array The fields to search on and their weights
+     * @param $searchOptions array An array of the search query, filters, sorts, etc to apply to the search.
      *
      * @return array An array of search results matching the issued query
      */
-    public function search($query, $searchFields)
+    public function search($query, $searchOptions)
     {
         $response = $this->client->get('search',
             [
-                'json' => [
-                    'query' => $query,
-                    'search_fields' => $searchFields,
-                ],
+                'json' => array_merge(['query' => $query,], $searchOptions)
             ]);
 
         return json_decode($response->getBody()->getContents(), true);
@@ -39,6 +38,8 @@ class Engine
 
     /**
      * Create or update a set of documents in an engine within a specific document_type.
+     *
+     * @see https://swiftype.com/documentation/app-search/api/documents
      *
      * @param Eloquent $document
      *
@@ -66,6 +67,8 @@ class Engine
     /**
      * Delete documents based on the document ids.
      *
+     * @see https://swiftype.com/documentation/app-search/api/documents
+     *
      * @param array $document_ids An array of document ids
      *
      * @return array An array of true/false elements indicated success or failure of the creation or update of each individual document
@@ -77,6 +80,11 @@ class Engine
         return json_decode($response->getBody()->getContents(), true);
     }
 
+    /**
+     * Lists all documents
+     *
+     * @return mixed Documents
+     */
     public function listDocuments()
     {
         $response = $this->client->get('documents/list');
@@ -86,6 +94,11 @@ class Engine
 
     /**
      * Goes through all documents and batches them up to be deleted.
+     *
+     * This internally isn't very performant since we can't tell Swiftype to just delete all documents. Instead we need
+     * to iterate through all documents, collect their IDs and then request those IDs to be deleted
+     *
+     * @return array Result of deleting the documents
      */
     public function purgeAllDocuments()
     {
