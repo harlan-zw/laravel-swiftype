@@ -30,7 +30,7 @@ class Engine
     {
         $response = $this->client->get('search',
             [
-                'json' => array_merge(['query' => $query,], $searchOptions)
+                'json' => array_merge(['query' => $query], $searchOptions),
             ]);
 
         return json_decode($response->getBody()->getContents(), true);
@@ -81,7 +81,7 @@ class Engine
     }
 
     /**
-     * Lists all documents
+     * Lists all documents.
      *
      * @return mixed Documents
      */
