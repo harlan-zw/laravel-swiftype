@@ -32,13 +32,13 @@ SWIFTYPE_HOST_IDENTIFIER=
 
 ### Trait
 
-
-For your models to in sync with Swiftype simply add the trait in.
+A trait is available which will hook into the model events to push updates to Swiftype. Simply add the below to
+any model which you'd like it's data to be pushed. 
 
 `use ExistsAsSwiftypeDocument`
 
-This trait hooks into the creating, updating and deleting events of your model and will send an API request to swiftype
-when they occur.
+Note: Swiftype only supports one document type per engine, there should only be one model which uses this trait.
+
 
 ### API
 
@@ -58,7 +58,7 @@ The package provides some Facades for you to interact with the Swiftype api
 
 Accessing SwiftypeEngine will have all requests routed to the engine you've provided as the default.
 
-`SwiftypeEngine::search($query)` - Search documents within the engine
+`SwiftypeEngine::search($query, $searchOptions)` - Search documents within the engine
 
 `SwiftypeEngine::createOrUpdateDocument($document)` - Creates a new document, or updates an existing, based on the primary 
 key. This function will use a transformer to make sure the primary key is transformed to just `id`. This takes an
