@@ -45,9 +45,9 @@ class Engine
      *
      * @return array An array of true/false elements indicated success or failure of the creation or update of each individual document
      */
-    public function createOrUpdateDocument($document)
+    public function createOrUpdateDocument($data)
     {
-        $response = $this->client->post('documents', ['json' => $document->getAttributesSwiftypeTransformed()]);
+        $response = $this->client->post('documents', ['json' => $data]);
 
         return json_decode($response->getBody()->getContents(), true);
     }

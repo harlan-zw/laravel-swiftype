@@ -10,17 +10,23 @@ trait ExistsAsSwiftypeDocument
     public static function bootExistsAsSwiftypeDocument()
     {
         static::updating(function ($model) {
-            SwiftypeEngine::createOrUpdateDocument($model);
+            $data = $model->getModelSwiftypeTransformed();
+            if (!empty($data)) {
+                SwiftypeEngine::createOrUpdateDocument($data);
+            }
         });
         static::created(function ($model) {
-            SwiftypeEngine::createOrUpdateDocument($model);
+            $data = $model->getModelSwiftypeTransformed();
+            if (!empty($data)) {
+                SwiftypeEngine::createOrUpdateDocument($data);
+            }
         });
         static::deleting(function ($model) {
-            SwiftypeEngine::deleteDocument($model);
+            SwiftypeEngine::deleteDocument($model->getKey());
         });
     }
 
-    public function getAttributesSwiftypeTransformed()
+    public function getModelSwiftypeTransformed()
     {
         $attributes = $this->getAttributes();
         // make sure that there is an id field set for swiftype
