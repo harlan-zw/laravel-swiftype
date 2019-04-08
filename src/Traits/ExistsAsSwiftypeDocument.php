@@ -2,9 +2,8 @@
 
 namespace Loonpwn\Swiftype\Traits;
 
-use App\Jobs\Swiftype\SwiftypeDelete;
 use App\Jobs\Swiftype\SwiftypeSync;
-use Loonpwn\Swiftype\Facades\SwiftypeEngine;
+use App\Jobs\Swiftype\SwiftypeDelete;
 
 trait ExistsAsSwiftypeDocument
 {
@@ -12,13 +11,13 @@ trait ExistsAsSwiftypeDocument
     {
         static::updated(function ($model) {
             $data = $model->getModelSwiftypeTransformed();
-            if (!empty($data)) {
+            if (! empty($data)) {
                 dispatch(new SwiftypeSync($data));
             }
         });
         static::created(function ($model) {
             $data = $model->getModelSwiftypeTransformed();
-            if (!empty($data)) {
+            if (! empty($data)) {
                 dispatch(new SwiftypeSync($data));
             }
         });
