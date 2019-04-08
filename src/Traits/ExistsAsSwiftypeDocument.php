@@ -2,27 +2,28 @@
 
 namespace Loonpwn\Swiftype\Traits;
 
-use Loonpwn\Swiftype\Facades\Swiftype;
+use App\Jobs\Swiftype\SwiftypeDelete;
+use App\Jobs\Swiftype\SwiftypeSync;
 use Loonpwn\Swiftype\Facades\SwiftypeEngine;
 
 trait ExistsAsSwiftypeDocument
 {
     public static function bootExistsAsSwiftypeDocument()
     {
-        static::updating(function ($model) {
+        static::updated(function ($model) {
             $data = $model->getModelSwiftypeTransformed();
             if (!empty($data)) {
-                SwiftypeEngine::createOrUpdateDocument($data);
+                dispatch(new SwiftypeSync($data));
             }
         });
         static::created(function ($model) {
             $data = $model->getModelSwiftypeTransformed();
             if (!empty($data)) {
-                SwiftypeEngine::createOrUpdateDocument($data);
+                dispatch(new SwiftypeSync($data));
             }
         });
-        static::deleting(function ($model) {
-            SwiftypeEngine::deleteDocument($model->getKey());
+        static::deleted(function ($model) {
+            dispatch(new SwiftypeDelete($model->getKey()));
         });
     }
 

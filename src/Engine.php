@@ -26,7 +26,7 @@ class Engine
      *
      * @return array An array of search results matching the issued query
      */
-    public function search($query, $searchOptions)
+    public function search($query, $searchOptions = [])
     {
         $response = $this->client->get('search',
             [

@@ -4,14 +4,9 @@ namespace Loonpwn\Swiftype\Tests;
 
 use Loonpwn\Swiftype\Traits\ExistsAsSwiftypeDocument;
 
-class TestModel extends Eloquent
+class TestModel
 {
     use ExistsAsSwiftypeDocument;
-
-    public function jsonSerialize()
-    {
-        return $this->getAttributesSwiftypeTransformed();
-    }
 
     public function getAttributes()
     {

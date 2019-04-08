@@ -21,6 +21,9 @@
         "orchestra/testbench": "~3.0",
         "sempro/phpunit-pretty-print": "^1.0"
     },
+    "scripts": {
+        "test": "phpunit"
+    },
     "autoload": {
         "psr-4": {
             "Loonpwn\\Swiftype\\": "src/"
