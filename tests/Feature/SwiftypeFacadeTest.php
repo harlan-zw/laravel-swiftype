@@ -14,6 +14,7 @@ class SwiftypeFacadeTest extends BaseSwiftypeTest
      */
     public function testCheckAuthentication()
     {
+        $this->log('Starting testCheckAuthentication');
         $this->assertTrue(Swiftype::authenticated(), 'Swiftype Authentication is working');
     }
 
@@ -24,8 +25,9 @@ class SwiftypeFacadeTest extends BaseSwiftypeTest
      */
     public function testCanListEngines()
     {
+        $this->log('Starting testCanListEngines');
         $engines = Swiftype::listEngines();
         $this->assertArrayHasKey('results', $engines, 'Can List engines');
-        var_dump('Found engines', $engines['results']);
+        $this->log('Found engines', count($engines['results']));
     }
 }

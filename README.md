@@ -58,15 +58,26 @@ The package provides some Facades for you to interact with the Swiftype api
 
 Accessing SwiftypeEngine will have all requests routed to the engine you've provided as the default.
 
-`SwiftypeEngine::search($query, $searchOptions)` - Search documents within the engine
+`SwiftypeEngine::searchWithQuery($query, $options)` - Search documents within the engine
+
+`SwiftypeEngine::search($options)` - Search documents within the engine. This should include the query
 
 `SwiftypeEngine::createOrUpdateDocument($document)` - Creates a new document, or updates an existing, based on the primary 
-key. This function will use a transformer to make sure the primary key is transformed to just `id`. This takes an
-Eloquent model as the parameter 
+key. This function will use a transformer to make sure the primary key is transformed to just `id`. 
 
-`SwiftypeEngine::deleteDocument($document)` - Removes a document. This takes an Eloquent model as the parameter 
+`SwiftypeEngine::createOrUpdateDocuments($document)` - Similar as the above but will take a list of models and chunk them
+to 100 per request
 
-`SwiftypeEngine::listDocuments()` - Lists documents that belong to the engine, with pagination.
+`SwiftypeEngine::deleteDocument($documentId)` - Removes a document.
+
+`SwiftypeEngine::deleteDocuments($documentIds)` - Takes an array of document ids and removes them. 
+
+`SwiftypeEngine::listDocuments($page = 1, $pageSize = 100)` - Lists documents that belong to the engine, with pagination.
+
+`SwiftypeEngine::listAllDocumentsByPages($action, $page = 1, $pageSize = 100)` - Lists documents that belong to the engine, 
+will iterate through all pages and call your custom action.
+
+`SwiftypeEngine::purgeAllDocuments()` - Will remove all documents from Swiftype
 
 
 

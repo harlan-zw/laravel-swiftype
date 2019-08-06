@@ -19,4 +19,8 @@ class BaseSwiftypeTest extends \Orchestra\Testbench\TestCase
     {
         return ['Loonpwn\Swiftype\SwiftypeServiceProvider'];
     }
+
+    public function log(...$message) {
+        echo implode(', ', $message) . "\n";
+    }
 }

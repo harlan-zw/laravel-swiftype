@@ -20,6 +20,7 @@
         </whitelist>
     </filter>
     <php>
+        <ini name="display_errors" value="true"/>
         <env name="SWIFTYPE_DEFAULT_ENGINE" value=""/>
         <env name="SWIFTYPE_API_PRIVATE_KEY" value=""/>
         <env name="SWIFTYPE_HOST_IDENTIFIER" value=""/>

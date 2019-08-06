@@ -1,8 +1,9 @@
 <?php
 
-namespace Loonpwn\Swiftype\Tests;
+namespace Loonpwn\Swiftype\Tests\Models;
 
 use Loonpwn\Swiftype\Traits\ExistsAsSwiftypeDocument;
+use Ramsey\Uuid\Uuid;
 
 class TestModel
 {
@@ -10,11 +11,12 @@ class TestModel
 
     public function getAttributes()
     {
+        $faker = \Faker\Factory::create();
         return [
-            'field_1' => 'test-1',
-            'field_2' => 'test-2',
-            'field_3' => 'test-3',
-            'field_4' => 'test-4',
+            'first_name' => $faker->firstName,
+            'last_name' => $faker->lastName,
+            'location' => $faker->address,
+            'created_at' => $faker->dateTime(),
         ];
     }
 
@@ -25,6 +27,6 @@ class TestModel
 
     public function getKey()
     {
-        return rand(10000, 99999);
+        return Uuid::uuid4();
     }
 }
