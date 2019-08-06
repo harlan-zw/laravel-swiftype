@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Swiftype;
+namespace Loonpwn\Swiftype\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -9,21 +9,21 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Loonpwn\Swiftype\Facades\SwiftypeEngine;
 
-class SwiftypeSync implements ShouldQueue
+class DeleteDocument implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $data;
+    private $documentId;
 
     /**
      * Create a new job instance.
      *
-     * @param $data
+     * @param $documentId
      */
-    public function __construct($data)
+    public function __construct($documentId)
     {
         //
-        $this->data = $data;
+        $this->documentId = $documentId;
     }
 
     /**
@@ -33,6 +33,7 @@ class SwiftypeSync implements ShouldQueue
      */
     public function handle()
     {
-        SwiftypeEngine::createOrUpdateDocument($this->data);
+        //
+        SwiftypeEngine::deleteDocument($this->documentId);
     }
 }

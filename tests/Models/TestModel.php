@@ -3,19 +3,18 @@
 namespace Loonpwn\Swiftype\Tests\Models;
 
 use Ramsey\Uuid\Uuid;
-use Loonpwn\Swiftype\Traits\ExistsAsSwiftypeDocument;
+use Loonpwn\Swiftype\Traits\IsSwiftypeDocument;
 
 class TestModel
 {
-    use ExistsAsSwiftypeDocument;
+    use IsSwiftypeDocument;
 
     public function getAttributes()
     {
         $faker = \Faker\Factory::create();
 
         return [
-            'first_name' => $faker->firstName,
-            'last_name' => $faker->lastName,
+            'advisor_name' => $faker->name,
             'location' => $faker->address,
             'created_at' => $faker->dateTime(),
         ];

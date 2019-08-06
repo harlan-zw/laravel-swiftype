@@ -13,7 +13,7 @@ class SwiftypeEngineFacadeTest extends BaseSwiftypeTest
         $this->log('Starting testSeedDocuments');
         $modelData = [];
         for ($i = 0; $i < 5; $i++) {
-            $modelData[] = (new TestModel())->getModelSwiftypeTransformed();
+            $modelData[] = (new TestModel())->getSwiftypeAttributes();
         }
         $results = SwiftypeEngine::createOrUpdateDocuments($modelData);
         $this->assertCount(5, $results, 'All ids are returned');
@@ -52,9 +52,10 @@ class SwiftypeEngineFacadeTest extends BaseSwiftypeTest
      */
     public function testSearchWorks()
     {
-        $results = SwiftypeEngine::listDocuments();
+        $results = SwiftypeEngine::listDocuments(1, 1);
+        $this->assertCount(1, $results['results'], 'Only one result');
 
-        $query = $results['results'][0]['first_name'];
+        $query = $results['results'][0]['advisor_name'];
 
         $this->log('Starting testSearchWorks');
         $documents = SwiftypeEngine::searchWithQuery($query);
@@ -62,17 +63,4 @@ class SwiftypeEngineFacadeTest extends BaseSwiftypeTest
         $this->log('Search for '.$query.': ', count($documents['results']));
     }
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testPurgeDocuments()
-    {
-        $this->log('Starting testPurgeDocuments');
-        $documentIds = SwiftypeEngine::purgeAllDocuments();
-
-        $this->assertNotEmpty($documentIds, 'Purge documents returned a valid response');
-        $this->log('Deleted documents', count($documentIds));
-    }
 }

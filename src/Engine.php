@@ -129,11 +129,13 @@ class Engine
     public function listDocuments($page = 1, $pageSize = self::MAX_PAGE_SIZE)
     {
         $response = $this->client->get('documents/list', [
-            'page' => [
-                'current' => $page,
-                // enforce 100 max
-                'size' => min(self::MAX_PAGE_SIZE, $pageSize),
-            ],
+            'json' => [
+                'page' => [
+                    'current' => $page,
+                    // enforce 100 max
+                    'size' => min(self::MAX_PAGE_SIZE, $pageSize),
+                ],
+            ]
         ]);
 
         return json_decode($response->getBody()->getContents(), true);
@@ -150,15 +152,12 @@ class Engine
     {
         // start with page 1
         $currentPage = $page;
-        do {
+        $finalPage = 1;
+        while($currentPage <= $finalPage) {
+
             // Swiftype paginates results 100 per page
-            $chunkResult = $this->listDocuments([
-                'page' => [
-                    'current' => $currentPage,
-                    // enforce self::MAX_PAGE_SIZE max
-                    'size' => min(self::MAX_PAGE_SIZE, $pageSize),
-                ],
-            ]);
+            $chunkResult = $this->listDocuments($currentPage, $pageSize);
+
             // pagination data
             $finalPage = $chunkResult['meta']['page']['total_pages'];
             $currentPage = $chunkResult['meta']['page']['current'];
@@ -171,7 +170,7 @@ class Engine
             $action($chunkResult['results'], $currentPage, $finalPage);
 
             $currentPage++;
-        } while ($currentPage <= $finalPage);
+        }
     }
 
     /**

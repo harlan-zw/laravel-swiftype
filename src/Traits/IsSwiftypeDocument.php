@@ -2,31 +2,32 @@
 
 namespace Loonpwn\Swiftype\Traits;
 
-use App\Jobs\Swiftype\SwiftypeSync;
-use App\Jobs\Swiftype\SwiftypeDelete;
 
-trait ExistsAsSwiftypeDocument
+use Loonpwn\Swiftype\Jobs\DeleteDocument;
+use Loonpwn\Swiftype\Jobs\SyncDocument;
+
+trait IsSwiftypeDocument
 {
-    public static function bootExistsAsSwiftypeDocument()
+    public static function bootIsSwiftypeDocument()
     {
         static::updated(function ($model) {
-            $data = $model->getModelSwiftypeTransformed();
+            $data = $model->getSwiftypeAttributes();
             if (! empty($data)) {
-                dispatch(new SwiftypeSync($data));
+                dispatch(new SyncDocument($data));
             }
         });
         static::created(function ($model) {
-            $data = $model->getModelSwiftypeTransformed();
+            $data = $model->getSwiftypeAttributes();
             if (! empty($data)) {
-                dispatch(new SwiftypeSync($data));
+                dispatch(new SyncDocument($data));
             }
         });
         static::deleted(function ($model) {
-            dispatch(new SwiftypeDelete($model->getKey()));
+            dispatch(new DeleteDocument($model->getKey()));
         });
     }
 
-    public function getModelSwiftypeTransformed()
+    public function getSwiftypeAttributes()
     {
         $attributes = $this->getAttributes();
         // make sure that there is an id field set for swiftype
