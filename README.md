@@ -36,7 +36,7 @@ SWIFTYPE_HOST_IDENTIFIER=
 A trait is available which will hook into the model events to push updates to Swiftype. Simply add the below to
 any model which you'd like it's data to be pushed. 
 
-`use ExistsAsSwiftypeDocument`
+`use IsSwiftypeDocument`
 
 Note: Swiftype only supports one document type per engine, there should only be one model which uses this trait.
 
