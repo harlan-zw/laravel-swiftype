@@ -62,5 +62,4 @@ class SwiftypeEngineFacadeTest extends BaseSwiftypeTest
         $this->assertArrayHasKey('results', $documents, 'We can search engine documents');
         $this->log('Search for '.$query.': ', count($documents['results']));
     }
-
 }

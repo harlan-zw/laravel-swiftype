@@ -135,7 +135,7 @@ class Engine
                     // enforce 100 max
                     'size' => min(self::MAX_PAGE_SIZE, $pageSize),
                 ],
-            ]
+            ],
         ]);
 
         return json_decode($response->getBody()->getContents(), true);
@@ -153,7 +153,7 @@ class Engine
         // start with page 1
         $currentPage = $page;
         $finalPage = 1;
-        while($currentPage <= $finalPage) {
+        while ($currentPage <= $finalPage) {
 
             // Swiftype paginates results 100 per page
             $chunkResult = $this->listDocuments($currentPage, $pageSize);
