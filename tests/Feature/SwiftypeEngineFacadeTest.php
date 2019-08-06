@@ -8,7 +8,6 @@ use Loonpwn\Swiftype\Tests\Models\TestModel;
 
 class SwiftypeEngineFacadeTest extends BaseSwiftypeTest
 {
-
     public function testSeedDocuments()
     {
         $this->log('Starting testSeedDocuments');
@@ -19,7 +18,6 @@ class SwiftypeEngineFacadeTest extends BaseSwiftypeTest
         $results = SwiftypeEngine::createOrUpdateDocuments($modelData);
         $this->assertCount(5, $results, 'All ids are returned');
         $this->log('Created documents');
-
     }
 
     /**
@@ -39,10 +37,10 @@ class SwiftypeEngineFacadeTest extends BaseSwiftypeTest
     {
         $this->log('Starting testListAllDocumentsWorks');
         $count = 0;
-        SwiftypeEngine::listAllDocumentsByPages(function($results, $page, $total) use (&$count) {
+        SwiftypeEngine::listAllDocumentsByPages(function ($results, $page, $total) use (&$count) {
             $this->assertNotEmpty($results, 'Page has results');
             $count++;
-            $this->log('listed results for page', count($results), $page . '/' . $total);
+            $this->log('listed results for page', count($results), $page.'/'.$total);
         });
         $this->assertTrue($count > 0, 'Had pages');
     }
@@ -61,7 +59,7 @@ class SwiftypeEngineFacadeTest extends BaseSwiftypeTest
         $this->log('Starting testSearchWorks');
         $documents = SwiftypeEngine::searchWithQuery($query);
         $this->assertArrayHasKey('results', $documents, 'We can search engine documents');
-        $this->log('Search for ' . $query . ': ', count($documents['results']));
+        $this->log('Search for '.$query.': ', count($documents['results']));
     }
 
     /**

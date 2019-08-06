@@ -2,9 +2,6 @@
 
 namespace Loonpwn\Swiftype\Tests;
 
-use Loonpwn\Swiftype\Facades\Swiftype;
-use Loonpwn\Swiftype\Facades\SwiftypeEngine;
-
 class BaseSwiftypeTest extends \Orchestra\Testbench\TestCase
 {
     protected function getPackageAliases($app)
@@ -20,7 +17,8 @@ class BaseSwiftypeTest extends \Orchestra\Testbench\TestCase
         return ['Loonpwn\Swiftype\SwiftypeServiceProvider'];
     }
 
-    public function log(...$message) {
-        echo implode(', ', $message) . "\n";
+    public function log(...$message)
+    {
+        echo implode(', ', $message)."\n";
     }
 }
