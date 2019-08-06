@@ -2,9 +2,8 @@
 
 namespace Loonpwn\Swiftype\Traits;
 
-
-use Loonpwn\Swiftype\Jobs\DeleteDocument;
 use Loonpwn\Swiftype\Jobs\SyncDocument;
+use Loonpwn\Swiftype\Jobs\DeleteDocument;
 
 trait IsSwiftypeDocument
 {
