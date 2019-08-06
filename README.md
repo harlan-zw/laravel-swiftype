@@ -4,7 +4,8 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/loonpwn/laravel-swiftype.svg?style=flat)](https://packagist.org/packages/loonpwn/laravel-swiftype)
 [![StyleCI](https://github.styleci.io/repos/155632347/shield?branch=master)](https://github.styleci.io/repos/155632347)
 
-This Laravel package provides a synchronization between your Eloquent models and a single Swiftype app engine. 
+This package provides a wrapper around the [Swiftype App Search API](https://swiftype.com/documentation/app-search) as well
+as specific Laravel helpers such as a Eloquent model trait and Jobs.
 
 ## Installation
 
