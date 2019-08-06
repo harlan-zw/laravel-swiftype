@@ -84,14 +84,14 @@ class Engine
     {
         return collect($data)
             ->chunk(self::MAX_PAGE_SIZE)
-            ->map(function($chunk) {
+            ->map(function ($chunk) {
                 $response = $this->client->post('documents', ['json' => $chunk]);
+
                 return json_decode($response->getBody()->getContents(), true);
             })
             ->flatten()
             ->toArray();
     }
-
 
     /**
      * Delete a document from the engine using the document id.
@@ -132,13 +132,12 @@ class Engine
             'page' => [
                 'current' => $page,
                 // enforce 100 max
-                'size' => min(self::MAX_PAGE_SIZE, $pageSize)
-            ]
+                'size' => min(self::MAX_PAGE_SIZE, $pageSize),
+            ],
         ]);
 
         return json_decode($response->getBody()->getContents(), true);
     }
-
 
     /**
      * Loops though each swiftype page and calls the action with the results.
@@ -157,8 +156,8 @@ class Engine
                 'page' => [
                     'current' => $currentPage,
                     // enforce self::MAX_PAGE_SIZE max
-                    'size' => min(self::MAX_PAGE_SIZE, $pageSize)
-                ]
+                    'size' => min(self::MAX_PAGE_SIZE, $pageSize),
+                ],
             ]);
             // pagination data
             $finalPage = $chunkResult['meta']['page']['total_pages'];
@@ -186,12 +185,12 @@ class Engine
     public function purgeAllDocuments()
     {
         $allIds = collect();
-        $this->listAllDocumentsByPages(function($chunk) use (&$allIds) {
+        $this->listAllDocumentsByPages(function ($chunk) use (&$allIds) {
             $ids = collect($chunk)->map->id->toArray();
             $this->deleteDocuments($ids);
             $allIds->push($ids);
         });
+
         return $allIds->flatten()->toArray();
     }
-
 }
