@@ -3,7 +3,6 @@
 namespace Loonpwn\Swiftype\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Loonpwn\Swiftype\SwiftypeClient;
 
 /**
  *  @see Api

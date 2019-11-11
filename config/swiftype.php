@@ -22,5 +22,5 @@ return [
      */
     'sync_models' => [
         // User::class
-    ]
+    ],
 ];

@@ -12,5 +12,4 @@ class User extends Model
     public $table = 'users';
 
     public $guarded = [];
-
 }
