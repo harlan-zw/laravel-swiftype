@@ -12,10 +12,10 @@
     "homepage": "https://github.com/loonpwn/swiftype",
     "keywords": ["Laravel", "Swiftype"],
     "require": {
-        "illuminate/support": "~6",
         "elastic/app-search": "^7.4"
     },
     "require-dev": {
+        "illuminate/support": "~6",
         "phpunit/phpunit": "~8",
         "mockery/mockery": "^1.1",
         "orchestra/testbench": "^4.3.0",
