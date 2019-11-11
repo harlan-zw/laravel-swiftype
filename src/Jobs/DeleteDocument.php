@@ -33,7 +33,6 @@ class DeleteDocument implements ShouldQueue
      */
     public function handle()
     {
-        //
-        SwiftypeEngine::deleteDocument($this->documentId);
+        app(SwiftypeEngine::class)->deleteDocument($this->documentId);
     }
 }

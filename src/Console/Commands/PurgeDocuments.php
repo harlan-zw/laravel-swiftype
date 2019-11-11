@@ -5,7 +5,7 @@ namespace Loonpwn\Swiftype\Console\Commands;
 use Illuminate\Console\Command;
 use Loonpwn\Swiftype\Facades\SwiftypeEngine;
 
-class PurgeAllDocuments extends Command
+class PurgeDocuments extends Command
 {
     /**
      * The name and signature of the console command.
@@ -21,15 +21,6 @@ class PurgeAllDocuments extends Command
      */
     protected $description = 'Removes all documents from Swiftype.';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * Execute the console command.
@@ -38,6 +29,6 @@ class PurgeAllDocuments extends Command
      */
     public function handle()
     {
-        SwiftypeEngine::purgeAllDocuments();
+        (app(SwiftypeEngine::class))->purgeAllDocuments();
     }
 }

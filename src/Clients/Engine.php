@@ -1,20 +1,33 @@
 <?php
 
-namespace Loonpwn\Swiftype;
+namespace Loonpwn\Swiftype\Clients;
+
+use Illuminate\Support\Collection;
+use Loonpwn\Swiftype\Exceptions\MissingSwiftypeConfigException;
 
 class Engine
 {
     public const MAX_PAGE_SIZE = 100;
 
+    /**
+     * @var Api
+     */
     protected $client;
 
-    public function __construct()
+    protected $engineName;
+
+    public function __construct($client)
     {
-        $engine = config('swiftype.defaultEngine');
-        $config = array_merge(config('swiftype'), [
-            'apiUrl' => 'https://'.config('swiftype.hostIdentifier').'.api.swiftype.com/api/as/v1/engines/'.$engine.'/',
-        ]);
-        $this->client = new SwiftypeClient($config);
+        $this->client = $client;
+
+        // Allow the engineName to be set from a parent class
+        if (empty($this->engineName)) {
+            if (empty(config('swiftype.default_engine'))) {
+                throw new MissingSwiftypeConfigException('SWIFTYPE_DEFAULT_ENGINE');
+            }
+
+            $this->engineName = config('swiftype.default_engine');
+        }
     }
 
     /**
@@ -28,33 +41,23 @@ class Engine
      *
      * @return array An array of search results matching the issued query
      */
-    public function searchWithQuery($query, $options = [])
+    public function search(string $query, $options = [])
     {
-        $response = $this->client->get('search',
-            [
-                'json' => array_merge(['query' => $query], $options),
-            ]);
-
-        return json_decode($response->getBody()->getContents(), true);
+        return $this->client->search($this->engineName, $query, $options);
     }
 
-    /**
-     * Issue a query to an engine within a specific document_type.
-     *
-     * @see https://swiftype.com/documentation/app-search/api/search
-     *
-     * @param $options array An array of the query options, such as filters, sorts, etc to apply to the request
-     *
-     * @return array An array of search results matching the issued query
-     */
-    public function search($options = [])
-    {
-        $response = $this->client->get('search',
-            [
-                'json' => $options,
-            ]);
 
-        return json_decode($response->getBody()->getContents(), true);
+    /**
+     * Create or update a set of documents in an engine within a specific document_type.
+     *
+     * @see https://swiftype.com/documentation/app-search/api/documents
+     *
+     * @param $document
+     * @return array An array of true/false elements indicated success or failure of the creation or update of each individual document
+     */
+    public function indexDocument($document)
+    {
+        return $this->indexDocuments([ $document ]);
     }
 
     /**
@@ -62,32 +65,15 @@ class Engine
      *
      * @see https://swiftype.com/documentation/app-search/api/documents
      *
-     * @param Eloquent $document
-     *
+     * @param array $documents
      * @return array An array of true/false elements indicated success or failure of the creation or update of each individual document
      */
-    public function createOrUpdateDocument($data)
+    public function indexDocuments(array $documents)
     {
-        $response = $this->client->post('documents', ['json' => $data]);
-
-        return json_decode($response->getBody()->getContents(), true);
-    }
-
-    /**
-     * Create or update a set of documents in an engine within a specific document_type.
-     *
-     * @see https://swiftype.com/documentation/app-search/api/documents
-     *
-     * @return array An array of true/false elements indicated success or failure of the creation or update of each individual document
-     */
-    public function createOrUpdateDocuments($data)
-    {
-        return collect($data)
+        return collect($documents)
             ->chunk(self::MAX_PAGE_SIZE)
-            ->map(function ($chunk) {
-                $response = $this->client->post('documents', ['json' => $chunk]);
-
-                return json_decode($response->getBody()->getContents(), true);
+            ->map(function (Collection $documentsChunk) {
+                return $this->client->indexDocuments($this->engineName, $documentsChunk->toArray());
             })
             ->flatten()
             ->toArray();
@@ -102,7 +88,7 @@ class Engine
      */
     public function deleteDocument($documentId)
     {
-        $this->deleteDocuments([$documentId]);
+        return $this->deleteDocuments([ $documentId ]);
     }
 
     /**
@@ -116,29 +102,23 @@ class Engine
      */
     public function deleteDocuments($documentIds)
     {
-        $response = $this->client->delete('documents', ['json' => $documentIds]);
-
-        return json_decode($response->getBody()->getContents(), true);
+        // no document ids to delete
+        if (empty($documentIds)) {
+            return [];
+        }
+        return $this->client->deleteDocuments($this->engineName, $documentIds);
     }
 
     /**
      * Lists all documents. Note that this will only return a 100 results maximum.
      *
+     * @param int $page
+     * @param int $pageSize
      * @return mixed Documents
      */
     public function listDocuments($page = 1, $pageSize = self::MAX_PAGE_SIZE)
     {
-        $response = $this->client->get('documents/list', [
-            'json' => [
-                'page' => [
-                    'current' => $page,
-                    // enforce 100 max
-                    'size' => min(self::MAX_PAGE_SIZE, $pageSize),
-                ],
-            ],
-        ]);
-
-        return json_decode($response->getBody()->getContents(), true);
+        return $this->client->listDocuments($this->engineName, $page, min(self::MAX_PAGE_SIZE, $pageSize));
     }
 
     /**
@@ -162,7 +142,7 @@ class Engine
             $finalPage = $chunkResult['meta']['page']['total_pages'];
             $currentPage = $chunkResult['meta']['page']['current'];
 
-            // If results are 0 swiftype killed itself
+            // If results are empty swiftype killed itself
             if (empty($chunkResult['results'])) {
                 break;
             }
@@ -191,5 +171,16 @@ class Engine
         });
 
         return $allIds->flatten()->toArray();
+    }
+
+    /**
+     * Sends a request to swiftype to update the schema
+     *
+     * @param array $schema
+     * @return mixed
+     */
+    public function updateSchema(array $schema)
+    {
+        return $this->client->updateSchema($this->engineName, $schema);
     }
 }

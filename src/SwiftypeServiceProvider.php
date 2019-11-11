@@ -3,7 +3,12 @@
 namespace Loonpwn\Swiftype;
 
 use Illuminate\Support\ServiceProvider;
-use Loonpwn\Swiftype\Console\Commands\PurgeAllDocuments;
+use Loonpwn\Swiftype\Clients\Api;
+use Loonpwn\Swiftype\Clients\Engine;
+use Loonpwn\Swiftype\Console\Commands\PurgeDocuments;
+use Loonpwn\Swiftype\Console\Commands\SyncDocuments;
+use Loonpwn\Swiftype\Facades\Swiftype;
+use Loonpwn\Swiftype\Facades\SwiftypeEngine;
 
 class SwiftypeServiceProvider extends ServiceProvider
 {
@@ -30,14 +35,15 @@ class SwiftypeServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/swiftype.php', 'swiftype');
 
-        // Register the service the package provides.
-        $this->app->singleton('swiftype', function () {
-            return new Api();
+        $this->app->singleton(Swiftype::class, function() {
+            return Api::build();
         });
 
         // Register the service the package provides.
-        $this->app->bind('swiftype-engine', function () {
-            return new Engine();
+        $this->app->bind(SwiftypeEngine::class, function () {
+            return new Engine(
+                $this->app->get(Swiftype::class)
+            );
         });
     }
 
@@ -48,7 +54,9 @@ class SwiftypeServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['swiftype'];
+        return [
+            'swiftype'
+        ];
     }
 
     /**
@@ -60,10 +68,13 @@ class SwiftypeServiceProvider extends ServiceProvider
     {
         // Publishing the configuration file.
         $this->publishes([
-            __DIR__.'/../config/swiftype.php' => config_path('swiftype.php'),
+            dirname(__DIR__) . '/config/swiftype.php' => config_path('swiftype.php'),
         ], 'swiftype-config');
 
         // Registering package commands.
-        $this->commands([PurgeAllDocuments::class]);
+        $this->commands([
+            PurgeDocuments::class,
+            SyncDocuments::class,
+        ]);
     }
 }

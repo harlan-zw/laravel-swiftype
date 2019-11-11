@@ -4,8 +4,8 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/loonpwn/laravel-swiftype.svg?style=flat)](https://packagist.org/packages/loonpwn/laravel-swiftype)
 [![StyleCI](https://github.styleci.io/repos/155632347/shield?branch=master)](https://github.styleci.io/repos/155632347)
 
-This package provides a wrapper around the [Swiftype App Search API](https://swiftype.com/documentation/app-search) as well
-as specific Laravel helpers such as a Eloquent model trait and Jobs.
+Laravel Swiftype is a wrapper for [elastic/app-search](https://www.elastic.co/products/app-search) with some Laravel
+specific Laravel helpers to make integrating your Eloquent Models with Swiftype a breeze.
 
 ## Installation
 
@@ -31,42 +31,40 @@ SWIFTYPE_API_PRIVATE_KEY=
 SWIFTYPE_HOST_IDENTIFIER=
 ```
 
-### Trait
-
-A trait is available which will hook into the model events to push updates to Swiftype. Simply add the below to
-any model which you'd like it's data to be pushed. 
-
-`use IsSwiftypeDocument`
-
-Note: Swiftype only supports one document type per engine, there should only be one model which uses this trait.
+Get your keys from the [Swiftype Credentials](https://app.swiftype.com/as#/credentials) page.
 
 
 ### API
 
+This packages has two Facades which give you access to the underlying client. 
+
 #### Swiftype
 
-The package provides some Facades for you to interact with the Swiftype api 
+The `Swiftype` facade is a direct wrapper for built client from https://github.com/elastic/app-search-php. Any command
+from the base client can be used on this facade. Example:
 
-`Swiftype::listEngines()` - Show all engines available
+- `Swiftype::listEngines($currentPage = null, $pageSize = null)` - Show all engines available
 
-`Swiftype::findEngine($name)` - Find an engine based on name
+- `Swiftype::createEngine($name, $language = 'en')` - Find an engine based on name
 
-`Swiftype::createEngine()` - Create a new engine
+With IDE auto-complete:
 
-`Swiftype::authenticated()` - Checks that the authenticated worked 
+````php
+/** @var \Loonpwn\Swiftype\Clients\Api $api */
+$api = app(Swiftype::class);
+````
 
 #### SwiftypeEngine
 
-Accessing SwiftypeEngine will have all requests routed to the engine you've provided as the default.
+The `SwiftypeEngine` is a wrapper on top of the `Swiftype` facade with a direct context of an engine. Many of the same 
+functions from the core API is available in this facade without the need to specify an engine. 
 
-`SwiftypeEngine::searchWithQuery($query, $options)` - Search documents within the engine
+`SwiftypeEngine::search($query, $options)` - Search documents within the engine
 
-`SwiftypeEngine::search($options)` - Search documents within the engine. This should include the query
-
-`SwiftypeEngine::createOrUpdateDocument($document)` - Creates a new document, or updates an existing, based on the primary 
+`SwiftypeEngine::indexDocument($document)` - Creates a new document, or updates an existing, based on the primary 
 key. This function will use a transformer to make sure the primary key is transformed to just `id`. 
 
-`SwiftypeEngine::createOrUpdateDocuments($document)` - Similar as the above but will take a list of models and chunk them
+`SwiftypeEngine::indesDocuments($document)` - Similar as the above but will take a list of models and chunk them
 to 100 per request
 
 `SwiftypeEngine::deleteDocument($documentId)` - Removes a document.
@@ -80,6 +78,47 @@ will iterate through all pages and call your custom action.
 
 `SwiftypeEngine::purgeAllDocuments()` - Will remove all documents from Swiftype
 
+
+### Traits
+ 
+`use IsSwiftypeDocument` is a trait available which hooks into the models `saved` event hook. The following happens on
+saved:
+  - `shouldSyncSwiftypeOnSave` is checked and must pass true to continue
+  - `getSwiftypeAttributes` is called to get the attributes to send to Swiftype 
+
+The default logic of these functions defined in the trait looks like the below. You should override these functions for 
+business specific logic.
+
+```php
+/**
+ * Should model changes be pushed to Swiftype. Excludes deleting
+ * @return bool
+ */
+public function shouldSyncSwiftypeOnSave()
+{
+    // by default all model changes are pushed to swiftype
+    return true;
+}
+
+/**
+ * Get the mapped attribute values for Swiftype
+ * @return mixed|null
+ */
+public function getSwiftypeAttributes()
+{
+    // Document transformer is the default transformer, feel free to implement your own
+    return transform($this, new DocumentTransformer());
+}
+```
+
+### Jobs
+
+Currently only jobs directly related to the Eloquent Model events are created. These can be used to queue the data sync.
+
+- `DeleteDocument($documentId)` - Delete a particular document, takes the document id
+- `IndexDocument($document)` - Pushes the individual document. Takes the mapped document 
+- `SyncDocuments` - Iterates through all documents in Swiftype and local DB to find documents out of sync and eithers
+adds or removes them. This uses the `swiftype.sync_models` configuration
 
 
 ## Testing

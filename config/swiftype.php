@@ -1,29 +1,26 @@
 <?php
 
+// get from here: https://app.swiftype.com/as#/credentials
 return [
     /*
-    |--------------------------------------------------------------------------
-    | Swiftype API Config
-    |--------------------------------------------------------------------------
-    |
-    | The API key used to authenticate requests made to Swiftypes API. This key
-    | is required to make use of the Swiftype library. The host identifier is
-    | the URL prefix for the API requests.
-    |
-    */
-    'defaultEngine' => env('SWIFTYPE_DEFAULT_ENGINE'),
+     * The default engine used for the SwiftypeEngine Facade.
+     */
+    'default_engine' => env('SWIFTYPE_DEFAULT_ENGINE'),
 
     /*
-    |--------------------------------------------------------------------------
-    | Swiftype API Config
-    |--------------------------------------------------------------------------
-    |
-    | The API key used to authenticate requests made to Swiftypes API. This key
-    | is required to make use of the Swiftype library. The host identifier is
-    | the URL prefix for the API requests.
-    |
-    */
-    'apiPrivateKey' => env('SWIFTYPE_API_PRIVATE_KEY'),
-    'hostIdentifier' => env('SWIFTYPE_HOST_IDENTIFIER'),
+     * The API key used to authenticate requests made to Swiftypes API. This key
+     * is required to make use of the Swiftype library.
+     */
+    'api_private_key' => env('SWIFTYPE_API_PRIVATE_KEY'),
+    /*
+     * The host identifier is the URL prefix for the API requests.
+     */
+    'host_identifier' => env('SWIFTYPE_HOST_IDENTIFIER'),
 
+    /*
+     * Models used when syncing data
+     */
+    'sync_models' => [
+        // User::class
+    ]
 ];

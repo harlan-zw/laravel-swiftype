@@ -9,21 +9,21 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Loonpwn\Swiftype\Facades\SwiftypeEngine;
 
-class SyncDocument implements ShouldQueue
+class IndexDocument implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $data;
+    public $document;
+
 
     /**
      * Create a new job instance.
      *
      * @param $data
      */
-    public function __construct($data)
+    public function __construct($document)
     {
-        //
-        $this->data = $data;
+        $this->document = $document;
     }
 
     /**
@@ -33,6 +33,6 @@ class SyncDocument implements ShouldQueue
      */
     public function handle()
     {
-        SwiftypeEngine::createOrUpdateDocument($this->data);
+        app(SwiftypeEngine::class)->indexDocument($this->document);
     }
 }
