@@ -5,7 +5,7 @@
 [![StyleCI](https://github.styleci.io/repos/155632347/shield?branch=master)](https://github.styleci.io/repos/155632347)
 
 Laravel Swiftype is a wrapper for [elastic/app-search](https://www.elastic.co/products/app-search) with some Laravel
-specific Laravel helpers to make integrating your Eloquent Models with Swiftype a breeze.
+specific helpers to make integrating your Eloquent Models with Swiftype a breeze.
 
 ## Installation
 
@@ -36,12 +36,12 @@ Get your keys from the [Swiftype Credentials](https://app.swiftype.com/as#/crede
 
 ### API
 
-This packages has two Facades which give you access to the underlying client. 
+This packages has two Facades which give you access to the underlying Swiftype client.
 
 #### Swiftype
 
-The `Swiftype` facade is a direct wrapper for built client from https://github.com/elastic/app-search-php. Any command
-from the base client can be used on this facade. Example:
+The `Swiftype` facade is a direct wrapper for the built client from https://github.com/elastic/app-search-php. Any 
+command from the base client can be used on this facade. Example:
 
 - `Swiftype::listEngines($currentPage = null, $pageSize = null)` - Show all engines available
 
@@ -56,8 +56,8 @@ $api = app(Swiftype::class);
 
 #### SwiftypeEngine
 
-The `SwiftypeEngine` is a wrapper on top of the `Swiftype` facade with a direct context of an engine. Many of the same 
-functions from the core API is available in this facade without the need to specify an engine. 
+The `SwiftypeEngine` is a wrapper on top of the `Swiftype` facade with direct context of the default engine. Many of the
+ same functions from the core API is available in this facade without the need to specify an engine. 
 
 `SwiftypeEngine::search($query, $options)` - Search documents within the engine
 
@@ -81,13 +81,12 @@ will iterate through all pages and call your custom action.
 
 ### Traits
  
-`use IsSwiftypeDocument` is a trait available which hooks into the models `saved` event hook. The following happens on
+`IsSwiftypeDocument` is a trait available which hooks into the models `saved` event hook. The following happens on
 saved:
   - `shouldSyncSwiftypeOnSave` is checked and must pass true to continue
   - `getSwiftypeAttributes` is called to get the attributes to send to Swiftype 
 
-The default logic of these functions defined in the trait looks like the below. You should override these functions for 
-business specific logic.
+You should override these functions for business specific logic.
 
 ```php
 /**
