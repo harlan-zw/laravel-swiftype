@@ -9,22 +9,22 @@ use Loonpwn\Swiftype\Tests\BaseTestCase;
 
 class SyncDocumentsTest extends BaseTestCase
 {
-
     /**
      * @test
      */
-    public function can_call_command() {
+    public function can_call_command()
+    {
         // create 5 documents
         $documents = $this->indexSeedDocuments(5);
         // delete 2 documents - count 3
-        $documents->take(2)->each(function($document) {
-          $document->delete();
+        $documents->take(2)->each(function ($document) {
+            $document->delete();
         });
 
         Event::fake();
 
         // delete 2 more documents (without events) - count 1
-        User::get()->take(2)->each(function($document) {
+        User::get()->take(2)->each(function ($document) {
             $document->delete();
         });
 
@@ -36,5 +36,4 @@ class SyncDocumentsTest extends BaseTestCase
 
         $this->assertEquals(6, count($this->engine->listDocuments()['results']));
     }
-
 }

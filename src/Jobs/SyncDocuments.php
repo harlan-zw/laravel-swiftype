@@ -1,15 +1,16 @@
 <?php
+
 namespace Loonpwn\Swiftype\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 use Loonpwn\Swiftype\Clients\Engine;
 use Loonpwn\Swiftype\Facades\SwiftypeEngine;
-use Illuminate\Support\Collection;
 
 class SyncDocuments implements ShouldQueue
 {
@@ -30,7 +31,6 @@ class SyncDocuments implements ShouldQueue
             throw new \Exception('To use the SyncDocuments command add your models to sync in config/swiftype.php');
         }
 
-
         $documentIds = collect();
         $documentIdsToDelete = collect();
         $engine->listAllDocumentsByPages(function ($documents) use ($documentIds, $documentIdsToDelete, $models) {
@@ -38,7 +38,7 @@ class SyncDocuments implements ShouldQueue
             $idsForCurrentPage = collect($documents)->map->id;
 
             // find all models for the id
-            $idsForCurrentPage = $idsForCurrentPage->filter(function($id) use ($models, $documentIdsToDelete) {
+            $idsForCurrentPage = $idsForCurrentPage->filter(function ($id) use ($models, $documentIdsToDelete) {
                 $foundModel = false;
                 foreach ($models as $modelClass) {
                     /** @var Model $model */
@@ -46,16 +46,19 @@ class SyncDocuments implements ShouldQueue
                     if ($model) {
                         $foundModel = true;
                         // if the model is indexed but it shouldn't be
-                        if (!$model->shouldSyncSwiftypeOnSave()) {
+                        if (! $model->shouldSyncSwiftypeOnSave()) {
                             $documentIdsToDelete->push($model->getKey());
+
                             return false;
                         }
                     }
                 }
-                if (!$foundModel) {
+                if (! $foundModel) {
                     $documentIdsToDelete->push($id);
+
                     return false;
                 }
+
                 return true;
             });
 
@@ -66,7 +69,7 @@ class SyncDocuments implements ShouldQueue
         foreach ($models as $modelClass) {
             /** @var Model $model */
             $models = $modelClass::whereNotIn((new $modelClass)->getKeyName(), $documentIds->flatten()->toArray())->get();
-            foreach($models as $model) {
+            foreach ($models as $model) {
                 if ($model->shouldSyncSwiftypeOnSave()) {
                     $documentsToAdd->push($model->getSwiftypeAttributes());
                 }
@@ -79,5 +82,4 @@ class SyncDocuments implements ShouldQueue
             $engine->deleteDocuments($documentIdsToDelete->toArray());
         }
     }
-
 }

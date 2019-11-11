@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Loonpwn\Swiftype\Tests\Integration;
-
 
 use Loonpwn\Swiftype\Tests\App\Models\User;
 use Loonpwn\Swiftype\Tests\BaseTestCase;
@@ -29,5 +27,4 @@ class ModelTests extends BaseTestCase
 
         $this->assertEmpty($documents['results']);
     }
-
 }

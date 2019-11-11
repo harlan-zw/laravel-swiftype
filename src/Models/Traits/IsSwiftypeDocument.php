@@ -2,8 +2,8 @@
 
 namespace Loonpwn\Swiftype\Models\Traits;
 
-use Loonpwn\Swiftype\Jobs\IndexDocument;
 use Loonpwn\Swiftype\Jobs\DeleteDocument;
+use Loonpwn\Swiftype\Jobs\IndexDocument;
 use Loonpwn\Swiftype\Models\Transformers\DocumentTransformer;
 
 trait IsSwiftypeDocument
@@ -22,7 +22,7 @@ trait IsSwiftypeDocument
     public function maybeIndexWithSwiftype()
     {
         // are we syncing
-        if (!$this->shouldSyncSwiftypeOnSave()) {
+        if (! $this->shouldSyncSwiftypeOnSave()) {
             return;
         }
         $data = $this->getSwiftypeAttributes();
@@ -33,7 +33,7 @@ trait IsSwiftypeDocument
     }
 
     /**
-     * Should model changes be pushed to Swiftype. Excludes deleting
+     * Should model changes be pushed to Swiftype. Excludes deleting.
      * @return bool
      */
     public function shouldSyncSwiftypeOnSave()
@@ -42,7 +42,7 @@ trait IsSwiftypeDocument
     }
 
     /**
-     * Get the mapped attribute values for Swiftype
+     * Get the mapped attribute values for Swiftype.
      * @return mixed|null
      */
     public function getSwiftypeAttributes()
