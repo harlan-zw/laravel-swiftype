@@ -7,7 +7,6 @@ use Loonpwn\Swiftype\Tests\BaseTestCase;
 
 class EngineFacadeTestCase extends BaseTestCase
 {
-
     /**
      * @test
      */

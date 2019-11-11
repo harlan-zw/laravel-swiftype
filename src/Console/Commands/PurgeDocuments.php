@@ -21,7 +21,6 @@ class PurgeDocuments extends Command
      */
     protected $description = 'Removes all documents from Swiftype.';
 
-
     /**
      * Execute the console command.
      *

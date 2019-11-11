@@ -1,7 +1,7 @@
 <?php
 
-use Loonpwn\Swiftype\Tests\App\Models\User;
 use Faker\Generator as Faker;
+use Loonpwn\Swiftype\Tests\App\Models\User;
 
 $factory->define(User::class, function (Faker $faker) {
     return [
@@ -12,4 +12,3 @@ $factory->define(User::class, function (Faker $faker) {
         'updated_at' => $faker->dateTimeBetween('-12 months'),
     ];
 });
-

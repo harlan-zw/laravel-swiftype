@@ -2,7 +2,6 @@
 
 namespace Loonpwn\Swiftype\Tests;
 
-
 use Illuminate\Support\Collection;
 use Loonpwn\Swiftype\Clients\Api;
 use Loonpwn\Swiftype\Clients\Engine;
@@ -30,7 +29,7 @@ class BaseTestCase extends \Orchestra\Testbench\TestCase
 
         $this->withFactories(__DIR__.'/database/factories');
 
-        /** @var Api $client */
+        /* @var Api $client */
         $this->client = app(Swiftype::class);
         $this->engine = app(SwiftypeEngine::class);
 
@@ -48,10 +47,9 @@ class BaseTestCase extends \Orchestra\Testbench\TestCase
     {
         // Setup default database to use sqlite :memory:
         $app['config']->set('swiftype.sync_models', [
-            User::class
+            User::class,
         ]);
     }
-
 
     protected function getPackageAliases($app)
     {
@@ -64,7 +62,7 @@ class BaseTestCase extends \Orchestra\Testbench\TestCase
     protected function getPackageProviders($app)
     {
         return [
-            'Loonpwn\Swiftype\SwiftypeServiceProvider'
+            'Loonpwn\Swiftype\SwiftypeServiceProvider',
         ];
     }
 
@@ -72,7 +70,8 @@ class BaseTestCase extends \Orchestra\Testbench\TestCase
      * @param int $count
      * @return Collection
      */
-    protected function indexSeedDocuments($count = 5) {
+    protected function indexSeedDocuments($count = 5)
+    {
         return factory(User::class)
             ->times($count)
             ->create();

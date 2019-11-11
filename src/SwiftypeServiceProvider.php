@@ -35,7 +35,7 @@ class SwiftypeServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/swiftype.php', 'swiftype');
 
-        $this->app->singleton(Swiftype::class, function() {
+        $this->app->singleton(Swiftype::class, function () {
             return Api::build();
         });
 
@@ -55,7 +55,7 @@ class SwiftypeServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            'swiftype'
+            'swiftype',
         ];
     }
 
@@ -68,7 +68,7 @@ class SwiftypeServiceProvider extends ServiceProvider
     {
         // Publishing the configuration file.
         $this->publishes([
-            dirname(__DIR__) . '/config/swiftype.php' => config_path('swiftype.php'),
+            dirname(__DIR__).'/config/swiftype.php' => config_path('swiftype.php'),
         ], 'swiftype-config');
 
         // Registering package commands.

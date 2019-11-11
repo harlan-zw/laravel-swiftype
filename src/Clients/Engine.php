@@ -46,7 +46,6 @@ class Engine
         return $this->client->search($this->engineName, $query, $options);
     }
 
-
     /**
      * Create or update a set of documents in an engine within a specific document_type.
      *
@@ -57,7 +56,7 @@ class Engine
      */
     public function indexDocument($document)
     {
-        return $this->indexDocuments([ $document ]);
+        return $this->indexDocuments([$document]);
     }
 
     /**
@@ -88,7 +87,7 @@ class Engine
      */
     public function deleteDocument($documentId)
     {
-        return $this->deleteDocuments([ $documentId ]);
+        return $this->deleteDocuments([$documentId]);
     }
 
     /**
@@ -106,6 +105,7 @@ class Engine
         if (empty($documentIds)) {
             return [];
         }
+
         return $this->client->deleteDocuments($this->engineName, $documentIds);
     }
 
@@ -174,7 +174,7 @@ class Engine
     }
 
     /**
-     * Sends a request to swiftype to update the schema
+     * Sends a request to swiftype to update the schema.
      *
      * @param array $schema
      * @return mixed

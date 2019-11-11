@@ -3,10 +3,10 @@
 namespace Loonpwn\Swiftype\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Loonpwn\Swiftype\Facades\SwiftypeEngine;
 
 class IndexDocument implements ShouldQueue
@@ -14,7 +14,6 @@ class IndexDocument implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $document;
-
 
     /**
      * Create a new job instance.
