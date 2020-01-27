@@ -25,7 +25,14 @@ class Api extends \Elastic\AppSearch\Client\Client
             }
         }
 
-        $apiEndpoint = 'https://'.config('swiftype.host_identifier').'.api.swiftype.com/api/as/v1/';
+        $hostIdentifier = config('swiftype.host_identifier');
+
+        if (preg_match('/^https?:\/\//i', $hostIdentifier) === 1) {
+            $apiEndpoint = $hostIdentifier.'/api/as/v1/';
+        }
+        else {
+            $apiEndpoint = 'https://'.$hostIdentifier.'.api.swiftype.com/api/as/v1/';
+        }
         $apiKey = config('swiftype.api_private_key');
         $clientBuilder = ClientBuilder::create($apiEndpoint, $apiKey);
 
