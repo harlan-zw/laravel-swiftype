@@ -29,8 +29,7 @@ class Api extends \Elastic\AppSearch\Client\Client
 
         if (preg_match('/^https?:\/\//i', $hostIdentifier) === 1) {
             $apiEndpoint = $hostIdentifier.'/api/as/v1/';
-        }
-        else {
+        } else {
             $apiEndpoint = 'https://'.$hostIdentifier.'.api.swiftype.com/api/as/v1/';
         }
         $apiKey = config('swiftype.api_private_key');
