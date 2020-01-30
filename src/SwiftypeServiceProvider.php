@@ -3,12 +3,12 @@
 namespace Loonpwn\Swiftype;
 
 use Illuminate\Support\ServiceProvider;
+use Laravel\Scout\EngineManager;
 use Loonpwn\Swiftype\Clients\Api;
 use Loonpwn\Swiftype\Clients\Engine;
 use Loonpwn\Swiftype\Console\Commands\PurgeDocuments;
 use Loonpwn\Swiftype\Console\Commands\SyncDocuments;
 use Loonpwn\Swiftype\Facades\Swiftype;
-use Loonpwn\Swiftype\Facades\SwiftypeEngine;
 
 class SwiftypeServiceProvider extends ServiceProvider
 {
@@ -19,6 +19,14 @@ class SwiftypeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        resolve(EngineManager::class)->extend('swiftype', function () {
+            return new \Loonpwn\Swiftype\SwiftypeEngine(
+                new Engine(
+                    $this->app->get(Swiftype::class)
+                )
+            );
+        });
 
         // Publishing is only necessary when using the CLI.
         if ($this->app->runningInConsole()) {

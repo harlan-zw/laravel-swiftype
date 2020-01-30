@@ -14,6 +14,10 @@ class EngineFacadeTestCase extends BaseTestCase
     {
         factory(User::class)->times(5)->create();
 
+        $user = User::search('test')->first();
+
+        dd($user);
+
         $results = $this->engine->listDocuments();
 
         $this->assertSame(5, count($results['results']), 'Documents exist in the engine');

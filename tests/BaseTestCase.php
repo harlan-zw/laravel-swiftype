@@ -3,6 +3,7 @@
 namespace Loonpwn\Swiftype\Tests;
 
 use Illuminate\Support\Collection;
+use Laravel\Scout\EngineManager;
 use Loonpwn\Swiftype\Clients\Api;
 use Loonpwn\Swiftype\Clients\Engine;
 use Loonpwn\Swiftype\Facades\Swiftype;
@@ -33,8 +34,9 @@ class BaseTestCase extends \Orchestra\Testbench\TestCase
         $this->client = app(Swiftype::class);
         $this->engine = app(SwiftypeEngine::class);
 
+
         // make sure there are no documents within
-        $this->engine->purgeAllDocuments();
+        User::removeAllFromSearch();
     }
 
     /**
@@ -49,6 +51,16 @@ class BaseTestCase extends \Orchestra\Testbench\TestCase
         $app['config']->set('swiftype.sync_models', [
             User::class,
         ]);
+        $app['config']->set('scout.driver', 'swiftype');
+
+        resolve(EngineManager::class)->extend('swiftype', function () {
+            return new \Loonpwn\Swiftype\SwiftypeEngine(
+                new Engine(
+                    $this->app->get(Swiftype::class)
+                )
+            );
+        });
+
     }
 
     protected function getPackageAliases($app)
