@@ -1,4 +1,5 @@
 <?php
+
 namespace Loonpwn\Swiftype;
 
 use Laravel\Scout\Builder;
@@ -6,14 +7,12 @@ use Loonpwn\Swiftype\Clients\Engine;
 
 class SwiftypeEngine extends \Laravel\Scout\Engines\Engine
 {
-
     /**
      * The Swiftype client.
      *
      * @var Engine
      */
     protected $swiftype;
-
 
     /**
      * Create a new engine instance.
@@ -50,7 +49,7 @@ class SwiftypeEngine extends \Laravel\Scout\Engines\Engine
     public function delete($models)
     {
         $this->swiftype->deleteDocuments(
-            $models->map(function($model) {
+            $models->map(function ($model) {
                 return $model->getKey();
             })->toArray()
         );
@@ -108,7 +107,7 @@ class SwiftypeEngine extends \Laravel\Scout\Engines\Engine
                 $options
             );
         }
-        
+
         return $this->swiftype->search($builder->index, $options);
     }
 
