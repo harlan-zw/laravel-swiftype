@@ -19,7 +19,6 @@ class SwiftypeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
         resolve(EngineManager::class)->extend('swiftype', function () {
             return new \Loonpwn\Swiftype\SwiftypeEngine(
                 new Engine(

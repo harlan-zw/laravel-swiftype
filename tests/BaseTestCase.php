@@ -34,7 +34,6 @@ class BaseTestCase extends \Orchestra\Testbench\TestCase
         $this->client = app(Swiftype::class);
         $this->engine = app(SwiftypeEngine::class);
 
-
         // make sure there are no documents within
         User::removeAllFromSearch();
     }
@@ -60,7 +59,6 @@ class BaseTestCase extends \Orchestra\Testbench\TestCase
                 )
             );
         });
-
     }
 
     protected function getPackageAliases($app)
