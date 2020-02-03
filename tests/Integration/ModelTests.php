@@ -1,4 +1,5 @@
 <?php
+
 namespace Loonpwn\Swiftype\Tests\Integration;
 
 use Loonpwn\Swiftype\Tests\App\Models\User;
