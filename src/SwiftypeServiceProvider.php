@@ -19,8 +19,8 @@ class SwiftypeServiceProvider extends ServiceProvider
     public function boot()
     {
         $engineManager = $this->app->get(EngineManager::class);
-        $this->app->bind(EngineManager::class, function() use ($engineManager) {
-           return $engineManager->extend('swiftype', function () {
+        $this->app->bind(EngineManager::class, function () use ($engineManager) {
+            return $engineManager->extend('swiftype', function () {
                 return new SwiftypeEngine(app(Engine::class));
             });
         });

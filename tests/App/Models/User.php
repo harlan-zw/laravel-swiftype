@@ -13,7 +13,6 @@ class User extends Model
 
     public $guarded = [];
 
-
     public function toSearchableArray()
     {
         return collect($this->toArray())->toArray();
@@ -23,10 +22,10 @@ class User extends Model
     {
         return [
             'name' => [
-                'weight' => 10
+                'weight' => 10,
             ],
             'email' => [
-                'weight' => 7
+                'weight' => 7,
             ],
         ];
     }

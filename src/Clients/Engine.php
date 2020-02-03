@@ -184,5 +184,4 @@ class Engine
     {
         return $this->client->updateSchema($this->engineName, $schema);
     }
-
 }
