@@ -3,7 +3,7 @@
 namespace Loonpwn\Swiftype\Console\Commands;
 
 use Illuminate\Console\Command;
-use Loonpwn\Swiftype\Facades\SwiftypeEngine;
+use Loonpwn\Swiftype\Clients\Engine;
 
 class PurgeDocuments extends Command
 {
@@ -28,6 +28,6 @@ class PurgeDocuments extends Command
      */
     public function handle()
     {
-        (app(SwiftypeEngine::class))->purgeAllDocuments();
+        app(Engine::class)->purgeAllDocuments();
     }
 }

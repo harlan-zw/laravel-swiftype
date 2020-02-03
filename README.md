@@ -83,8 +83,8 @@ will iterate through all pages and call your custom action.
  
 `IsSwiftypeDocument` is a trait available which hooks into the models `saved` event hook. The following happens on
 saved:
-  - `shouldSyncSwiftypeOnSave` is checked and must pass true to continue
-  - `getSwiftypeAttributes` is called to get the attributes to send to Swiftype 
+  - `shouldBeSearchable` is checked and must pass true to continue
+  - `toSearchableArray` is called to get the attributes to send to Swiftype 
 
 You should override these functions for business specific logic.
 
@@ -93,7 +93,7 @@ You should override these functions for business specific logic.
  * Should model changes be pushed to Swiftype. Excludes deleting
  * @return bool
  */
-public function shouldSyncSwiftypeOnSave()
+public function shouldBeSearchable()
 {
     // by default all model changes are pushed to swiftype
     return true;
@@ -103,7 +103,7 @@ public function shouldSyncSwiftypeOnSave()
  * Get the mapped attribute values for Swiftype
  * @return mixed|null
  */
-public function getSwiftypeAttributes()
+public function toSearchableArray()
 {
     // Document transformer is the default transformer, feel free to implement your own
     return transform($this, new DocumentTransformer());

@@ -8,7 +8,6 @@ use Loonpwn\Swiftype\Clients\Api;
 use Loonpwn\Swiftype\Clients\Engine;
 use Loonpwn\Swiftype\Console\Commands\PurgeDocuments;
 use Loonpwn\Swiftype\Console\Commands\SyncDocuments;
-use Loonpwn\Swiftype\Facades\Swiftype;
 
 class SwiftypeServiceProvider extends ServiceProvider
 {
@@ -19,13 +18,11 @@ class SwiftypeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-        resolve(EngineManager::class)->extend('swiftype', function () {
-            return new \Loonpwn\Swiftype\SwiftypeEngine(
-                new Engine(
-                    $this->app->get(Swiftype::class)
-                )
-            );
+        $engineManager = $this->app->get(EngineManager::class);
+        $this->app->bind(EngineManager::class, function() use ($engineManager) {
+           return $engineManager->extend('swiftype', function () {
+                return new SwiftypeEngine(app(Engine::class));
+            });
         });
 
         // Publishing is only necessary when using the CLI.
@@ -43,14 +40,14 @@ class SwiftypeServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/swiftype.php', 'swiftype');
 
-        $this->app->singleton(Swiftype::class, function () {
+        $this->app->singleton(Api::class, function () {
             return Api::build();
         });
 
         // Register the service the package provides.
-        $this->app->bind(SwiftypeEngine::class, function () {
+        $this->app->bind(Engine::class, function () {
             return new Engine(
-                $this->app->get(Swiftype::class)
+                app(Api::class)
             );
         });
     }

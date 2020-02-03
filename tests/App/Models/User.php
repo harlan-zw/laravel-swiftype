@@ -13,18 +13,21 @@ class User extends Model
 
     public $guarded = [];
 
-    /**
-     * Get the value used to index the model.
-     *
-     * @return mixed
-     */
-    public function getScoutKey()
+
+    public function toSearchableArray()
     {
-        return $this->email;
+        return collect($this->toArray())->toArray();
     }
 
-    public function shouldBeSearchable()
+    public function getScoutSearchFields()
     {
-        return true;
+        return [
+            'name' => [
+                'weight' => 10
+            ],
+            'email' => [
+                'weight' => 7
+            ],
+        ];
     }
 }

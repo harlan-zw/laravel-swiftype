@@ -2,6 +2,8 @@
 
 namespace Loonpwn\Swiftype\Tests\Integration;
 
+use Laravel\Scout\EngineManager;
+use Loonpwn\Swiftype\Clients\Engine;
 use Loonpwn\Swiftype\Tests\App\Models\User;
 use Loonpwn\Swiftype\Tests\BaseTestCase;
 

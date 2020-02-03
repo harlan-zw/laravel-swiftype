@@ -24,7 +24,7 @@ class SyncDocuments implements ShouldQueue
     public function handle()
     {
         /** @var Engine $engine */
-        $engine = app(SwiftypeEngine::class);
+        $engine = app(Engine::class);
         $models = config('swiftype.sync_models');
 
         if (empty($models)) {
@@ -46,7 +46,7 @@ class SyncDocuments implements ShouldQueue
                     if ($model) {
                         $foundModel = true;
                         // if the model is indexed but it shouldn't be
-                        if (! $model->shouldSyncSwiftypeOnSave()) {
+                        if (! $model->shouldBeSearchable()) {
                             $documentIdsToDelete->push($model->getKey());
 
                             return false;
@@ -70,8 +70,8 @@ class SyncDocuments implements ShouldQueue
             /** @var Model $model */
             $models = $modelClass::whereNotIn((new $modelClass)->getKeyName(), $documentIds->flatten()->toArray())->get();
             foreach ($models as $model) {
-                if ($model->shouldSyncSwiftypeOnSave()) {
-                    $documentsToAdd->push($model->getSwiftypeAttributes());
+                if ($model->shouldBeSearchable()) {
+                    $documentsToAdd->push($model->toSearchableArray());
                 }
             }
         }

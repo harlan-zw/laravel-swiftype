@@ -5,7 +5,7 @@ namespace Loonpwn\Swiftype\Clients;
 use Elastic\AppSearch\Client\ClientBuilder;
 use Loonpwn\Swiftype\Exceptions\MissingSwiftypeConfigException;
 
-class Api extends \Elastic\AppSearch\Client\Client
+class Api
 {
     private const REQUIRED_CONFIG = [
         'SWIFTYPE_API_PRIVATE_KEY' => 'api_private_key',

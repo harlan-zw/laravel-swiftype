@@ -38,7 +38,21 @@ class SwiftypeEngine extends \Laravel\Scout\Engines\Engine
             return;
         }
 
-        $this->swiftype->indexDocuments($models->toArray());
+        $objects = $models->map(function ($model) {
+            if (empty($searchableData = $model->toSearchableArray())) {
+                return;
+            }
+
+            return array_merge(
+                ['id' => $model->getScoutKey()],
+                $searchableData,
+                $model->scoutMetadata()
+            );
+        })->filter()->values()->all();
+
+        if (! empty($objects)) {
+            $this->swiftype->indexDocuments($objects);
+        }
     }
 
     /**
@@ -65,8 +79,11 @@ class SwiftypeEngine extends \Laravel\Scout\Engines\Engine
     public function search(Builder $builder)
     {
         return $this->performSearch($builder, array_filter([
-            'numericFilters' => $this->filters($builder),
-            'hitsPerPage' => $builder->limit,
+            'filters' => $this->filters($builder),
+            'search_fields' => $builder->model->getScoutSearchFields(),
+            'page' => [
+                'size' => $builder->limit ?? 10,
+            ]
         ]));
     }
 
@@ -81,9 +98,11 @@ class SwiftypeEngine extends \Laravel\Scout\Engines\Engine
     public function paginate(Builder $builder, $perPage, $page)
     {
         return $this->performSearch($builder, [
-            'numericFilters' => $this->filters($builder),
-            'hitsPerPage' => $perPage,
-            'page' => $page - 1,
+            'filters' => $this->filters($builder),
+            'page' => [
+                'current' => $page - 1,
+                'size' => $perPage ?? 10
+            ]
         ]);
     }
 
@@ -96,20 +115,7 @@ class SwiftypeEngine extends \Laravel\Scout\Engines\Engine
      */
     protected function performSearch(Builder $builder, array $options = [])
     {
-        $swiftype = $this->swiftype->initIndex(
-            $builder->index ?: $builder->model->searchableAs()
-        );
-
-        if ($builder->callback) {
-            return call_user_func(
-                $builder->callback,
-                $swiftype,
-                $builder->query,
-                $options
-            );
-        }
-        
-        return $this->swiftype->search($builder->index, $options);
+        return $this->swiftype->search($builder->query, $options);
     }
 
     /**
@@ -133,7 +139,7 @@ class SwiftypeEngine extends \Laravel\Scout\Engines\Engine
      */
     public function mapIds($results)
     {
-        return collect($results['hits'])->pluck('objectID')->values();
+        return collect($results['results'])->pluck('id.raw')->values();
     }
 
     /**
@@ -146,11 +152,11 @@ class SwiftypeEngine extends \Laravel\Scout\Engines\Engine
      */
     public function map(Builder $builder, $results, $model)
     {
-        if (count($results['hits']) === 0) {
+        if ($results['meta']['page']['total_results'] === 0) {
             return $model->newCollection();
         }
 
-        $objectIds = collect($results['hits'])->pluck('objectID')->values()->all();
+        $objectIds = collect($results['results'])->pluck('id.raw')->values()->all();
         $objectIdPositions = array_flip($objectIds);
 
         return $model->getScoutModelsByIds(
@@ -170,7 +176,7 @@ class SwiftypeEngine extends \Laravel\Scout\Engines\Engine
      */
     public function getTotalCount($results)
     {
-        return $results['nbHits'];
+        return $results['meta']['page']['total_results'];
     }
 
     /**
@@ -179,7 +185,7 @@ class SwiftypeEngine extends \Laravel\Scout\Engines\Engine
      * @param  \Illuminate\Database\Eloquent\Model  $model
      * @return void
      */
-    public function flush($model)
+    public function flush($model = null)
     {
         $this->swiftype->purgeAllDocuments();
     }

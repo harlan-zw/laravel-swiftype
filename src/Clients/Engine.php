@@ -2,6 +2,7 @@
 
 namespace Loonpwn\Swiftype\Clients;
 
+use Elastic\AppSearch\Client\Client;
 use Illuminate\Support\Collection;
 use Loonpwn\Swiftype\Exceptions\MissingSwiftypeConfigException;
 
@@ -10,13 +11,13 @@ class Engine
     public const MAX_PAGE_SIZE = 100;
 
     /**
-     * @var Api
+     * @var Client
      */
     protected $client;
 
     protected $engineName;
 
-    public function __construct($client)
+    public function __construct(Client $client)
     {
         $this->client = $client;
 
@@ -183,4 +184,5 @@ class Engine
     {
         return $this->client->updateSchema($this->engineName, $schema);
     }
+
 }

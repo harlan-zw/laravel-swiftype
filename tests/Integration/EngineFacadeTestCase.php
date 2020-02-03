@@ -12,11 +12,15 @@ class EngineFacadeTestCase extends BaseTestCase
      */
     public function can_index_documents()
     {
-        factory(User::class)->times(5)->create();
+        $toSearch = factory(User::class)->times(5)->create()->random();
 
-        $user = User::search('test')->first();
+        $parts = explode(' ', $toSearch->name);
 
-        dd($user);
+        sleep(1);
+
+        $user = User::search($parts[1])->first();
+        
+        $this->assertNotEmpty($user);
 
         $results = $this->engine->listDocuments();
 
