@@ -1,4 +1,5 @@
 <?php
+
 namespace Loonpwn\Swiftype\Tests;
 
 use Illuminate\Support\Collection;

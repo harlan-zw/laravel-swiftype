@@ -19,7 +19,7 @@ class EngineFacadeTestCase extends BaseTestCase
         sleep(1);
 
         $user = User::search($parts[1])->first();
-        
+
         $this->assertNotEmpty($user);
 
         $results = $this->engine->listDocuments();
