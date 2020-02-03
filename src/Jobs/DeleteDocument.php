@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Loonpwn\Swiftype\Facades\SwiftypeEngine;
+use Loonpwn\Swiftype\Clients\Engine;
 
 class DeleteDocument implements ShouldQueue
 {
@@ -33,6 +33,6 @@ class DeleteDocument implements ShouldQueue
      */
     public function handle()
     {
-        app(SwiftypeEngine::class)->deleteDocument($this->documentId);
+        app(Engine::class)->deleteDocument($this->documentId);
     }
 }
