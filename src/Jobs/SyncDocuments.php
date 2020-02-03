@@ -10,7 +10,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use Loonpwn\Swiftype\Clients\Engine;
-use Loonpwn\Swiftype\Facades\SwiftypeEngine;
 
 class SyncDocuments implements ShouldQueue
 {

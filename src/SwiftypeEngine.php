@@ -82,7 +82,7 @@ class SwiftypeEngine extends \Laravel\Scout\Engines\Engine
             'search_fields' => $builder->model->getScoutSearchFields(),
             'page' => [
                 'size' => $builder->limit ?? 10,
-            ]
+            ],
         ]));
     }
 
@@ -100,8 +100,8 @@ class SwiftypeEngine extends \Laravel\Scout\Engines\Engine
             'filters' => $this->filters($builder),
             'page' => [
                 'current' => $page - 1,
-                'size' => $perPage ?? 10
-            ]
+                'size' => $perPage ?? 10,
+            ],
         ]);
     }
 
