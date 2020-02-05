@@ -26,4 +26,36 @@ class ModelTests extends BaseTestCase
 
         $this->assertEmpty($documents['results']);
     }
+
+    /**
+     * @test
+     */
+    public function where_query_works()
+    {
+        // create a user, will trigger it to exist in Swiftype
+        /** @var User $user */
+        factory(User::class)->create([
+            'email' => 'test@test.com'
+        ]);
+
+        $user = User::search()->where('email', 'test@test.com')->first();
+
+        $this->assertEquals($user->email, 'test@test.com');
+    }
+
+    /**
+     * @test
+     */
+    public function engine_query_works()
+    {
+        $user = factory(User::class)->times(5)->create()->first();
+
+        $users = User::search(explode(' ', $user->name)[1], function ($options) {
+            return $options;
+        })->get();
+
+        $this->assertNotEmpty($users);
+    }
+
+
 }

@@ -114,6 +114,13 @@ class SwiftypeEngine extends \Laravel\Scout\Engines\Engine
      */
     protected function performSearch(Builder $builder, array $options = [])
     {
+        if ($builder->callback) {
+            $options = call_user_func(
+                $builder->callback,
+                $options
+            );
+        }
+
         return $this->swiftype->search($builder->query, $options);
     }
 
@@ -126,8 +133,8 @@ class SwiftypeEngine extends \Laravel\Scout\Engines\Engine
     protected function filters(Builder $builder)
     {
         return collect($builder->wheres)->map(function ($value, $key) {
-            return $key.'='.$value;
-        })->values()->all();
+            return [ $value ];
+        })->all();
     }
 
     /**
