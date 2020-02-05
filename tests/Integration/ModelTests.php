@@ -36,7 +36,7 @@ class ModelTests extends BaseTestCase
         // create a user, will trigger it to exist in Swiftype
         /** @var User $user */
         factory(User::class)->create([
-            'email' => 'test@test.com'
+            'email' => 'test@test.com',
         ]);
 
         $user = User::search()->where('email', 'test@test.com')->first();
@@ -57,6 +57,4 @@ class ModelTests extends BaseTestCase
 
         $this->assertNotEmpty($users);
     }
-
-
 }
