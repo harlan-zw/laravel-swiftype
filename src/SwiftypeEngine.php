@@ -133,7 +133,7 @@ class SwiftypeEngine extends \Laravel\Scout\Engines\Engine
     protected function filters(Builder $builder)
     {
         return collect($builder->wheres)->map(function ($value, $key) {
-            return [ $value ];
+            return [$value];
         })->all();
     }
 
