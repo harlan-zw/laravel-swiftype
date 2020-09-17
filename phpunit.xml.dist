@@ -11,7 +11,7 @@
          stopOnFailure="false">
     <testsuites>
         <testsuite name="Package">
-            <directory suffix=".php">./tests/Feature</directory>
+            <directory suffix=".php">./tests/Integration</directory>
         </testsuite>
     </testsuites>
     <filter>
@@ -20,7 +20,7 @@
         </whitelist>
     </filter>
     <php>
-        <ini name="display_errors" value="true"/>
+        <env name="DB_CONNECTION" value="testbench"/>
         <env name="SWIFTYPE_DEFAULT_ENGINE" value=""/>
         <env name="SWIFTYPE_API_PRIVATE_KEY" value=""/>
         <env name="SWIFTYPE_HOST_IDENTIFIER" value=""/>

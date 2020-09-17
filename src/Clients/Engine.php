@@ -72,7 +72,7 @@ class Engine
         return collect($documents)
             ->chunk(self::MAX_PAGE_SIZE)
             ->map(function (Collection $documentsChunk) {
-                return $this->client->indexDocuments($this->engineName, $documentsChunk->toArray());
+                return $this->client->indexDocuments($this->engineName, $documentsChunk->values()->toArray());
             })
             ->flatten()
             ->toArray();

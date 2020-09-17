@@ -12,7 +12,7 @@ class EngineFacadeTestCase extends BaseTestCase
      */
     public function can_index_documents()
     {
-        factory(User::class)->times(5)->create();
+        User::factory()->count(5)->create();
 
         $results = $this->engine->listDocuments();
 
@@ -54,7 +54,7 @@ class EngineFacadeTestCase extends BaseTestCase
      */
     public function can_search_document()
     {
-        $model = factory(User::class)->create();
+        $model = User::factory()->create();
 
         $this->log('Starting testSearchWorks');
         $results = $this->engine->search($model->name);
