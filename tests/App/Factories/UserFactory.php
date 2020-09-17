@@ -1,4 +1,5 @@
 <?php
+
 namespace Loonpwn\Swiftype\Tests\App\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
