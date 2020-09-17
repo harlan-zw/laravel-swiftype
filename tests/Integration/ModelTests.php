@@ -14,7 +14,7 @@ class ModelTests extends BaseTestCase
     {
         // create a user, will trigger it to exist in Swiftype
         /** @var User $user */
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $documents = $this->engine->listDocuments();
 

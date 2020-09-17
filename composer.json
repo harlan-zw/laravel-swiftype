@@ -6,24 +6,23 @@
         {
             "name": "Harlan Wilton",
             "email": "harlan@harlanzw.com",
-            "homepage": "https://harlanzw.com"
+            "homepage": "https://harlanzw.com",
+            "role": "Developer"
         }
     ],
     "homepage": "https://github.com/loonpwn/swiftype",
     "keywords": ["Laravel", "Swiftype"],
     "require": {
-        "elastic/app-search": "^7.4"
+        "php": "^7.3",
+        "elastic/app-search": "^7.4",
+        "illuminate/support": "^6.0|^7.0|^8.0"
     },
     "require-dev": {
-        "illuminate/support": "~6",
-        "phpunit/phpunit": "~8",
-        "mockery/mockery": "^1.1",
-        "orchestra/testbench": "^4.3.0",
-        "sempro/phpunit-pretty-print": "^1.0",
-        "fzaninotto/faker": "^1.8"
+        "orchestra/testbench": "^6.0"
     },
     "scripts": {
-        "test": "phpunit -v"
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
     },
     "autoload": {
         "psr-4": {
