@@ -30,8 +30,8 @@ class Api
         $client = new Client([
             'host' => $apiEndpoint,
             'app-search' => [
-                'token' => $apiKey
-            ]
+                'token' => $apiKey,
+            ],
         ]);
 
         return $client->appSearch();

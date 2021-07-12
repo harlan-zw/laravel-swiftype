@@ -4,7 +4,6 @@ namespace Loonpwn\Swiftype\Tests;
 
 use Elastic\EnterpriseSearch\AppSearch\Endpoints;
 use Illuminate\Support\Collection;
-use Loonpwn\Swiftype\Clients\Api;
 use Loonpwn\Swiftype\Clients\Engine;
 use Loonpwn\Swiftype\Facades\Swiftype;
 use Loonpwn\Swiftype\Facades\SwiftypeEngine;
