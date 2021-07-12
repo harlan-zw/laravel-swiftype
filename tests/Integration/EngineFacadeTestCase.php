@@ -35,9 +35,11 @@ class EngineFacadeTestCase extends BaseTestCase
      */
     public function list_all_documents_by_pages_works()
     {
+        $this->engine->purgeAllDocuments();
+        sleep(2);
         $this->indexSeedDocuments(4);
         // need to give swiftype a chance for their cache to update
-        sleep(1);
+        sleep(5);
         $this->log('Starting testListAllDocumentsWorks');
         $count = 0;
         // should be 5 pages of results

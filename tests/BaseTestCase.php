@@ -2,6 +2,7 @@
 
 namespace Loonpwn\Swiftype\Tests;
 
+use Elastic\EnterpriseSearch\AppSearch\Endpoints;
 use Illuminate\Support\Collection;
 use Loonpwn\Swiftype\Clients\Api;
 use Loonpwn\Swiftype\Clients\Engine;
@@ -12,7 +13,7 @@ use Loonpwn\Swiftype\Tests\App\Models\User;
 class BaseTestCase extends \Orchestra\Testbench\TestCase
 {
     /**
-     * @var Api
+     * @var Endpoints
      */
     public $client;
 
@@ -27,7 +28,7 @@ class BaseTestCase extends \Orchestra\Testbench\TestCase
 
         $this->loadLaravelMigrations();
 
-        /* @var Api $client */
+        /* @var Endpoints $client */
         $this->client = app(Swiftype::class);
         $this->engine = app(SwiftypeEngine::class);
 
@@ -47,8 +48,8 @@ class BaseTestCase extends \Orchestra\Testbench\TestCase
         $app['config']->set('swiftype.sync_models', [
             User::class,
         ]);
-        $app['config']->set('database.default', 'testbench');
-        $app['config']->set('database.connections.testbench', [
+        $app['config']->set('database.default', 'testing');
+        $app['config']->set('database.connections.testing', [
             'driver'   => 'sqlite',
             'database' => ':memory:',
             'prefix'   => '',

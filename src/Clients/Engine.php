@@ -2,24 +2,31 @@
 
 namespace Loonpwn\Swiftype\Clients;
 
+use Elastic\EnterpriseSearch\AppSearch\Endpoints as AppEndpoints;
+use Elastic\EnterpriseSearch\AppSearch\Request\DeleteDocuments;
+use Elastic\EnterpriseSearch\AppSearch\Request\IndexDocuments;
+use Elastic\EnterpriseSearch\AppSearch\Request\ListDocuments;
+use Elastic\EnterpriseSearch\AppSearch\Request\PutSchema;
+use Elastic\EnterpriseSearch\AppSearch\Request\Search;
+use Elastic\EnterpriseSearch\AppSearch\Schema\SchemaData;
+use Elastic\EnterpriseSearch\AppSearch\Schema\SearchRequestParams;
+use Elastic\EnterpriseSearch\Response\Response;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Loonpwn\Swiftype\Exceptions\MissingSwiftypeConfigException;
 
 class Engine
 {
     public const MAX_PAGE_SIZE = 100;
 
-    /**
-     * @var Api
-     */
-    protected $client;
+    protected AppEndpoints $client;
+    protected string $engineName;
 
-    protected $engineName;
-
-    public function __construct($client)
+    public function __construct(AppEndpoints $client, $engineName = '')
     {
         $this->client = $client;
 
+        $this->engineName = $engineName;
         // Allow the engineName to be set from a parent class
         if (empty($this->engineName)) {
             if (empty(config('swiftype.default_engine'))) {
@@ -37,13 +44,17 @@ class Engine
      *
      * @param string $query The search query
      *
-     * @param $options array An array of the search query, filters, sorts, etc to apply to the search.
+     * @param $options SearchRequestParams|null An array of the search query, filters, sorts, etc to apply to the search.
      *
      * @return array An array of search results matching the issued query
      */
-    public function search(string $query, $options = [])
+    public function search(string $query, SearchRequestParams $options = null)
     {
-        return $this->client->search($this->engineName, $query, $options);
+        if ($options === null) {
+            $options = new SearchRequestParams;
+        }
+        $options->query = $query;
+        return $this->client->search(new Search($this->engineName, $options));
     }
 
     /**
@@ -72,7 +83,9 @@ class Engine
         return collect($documents)
             ->chunk(self::MAX_PAGE_SIZE)
             ->map(function (Collection $documentsChunk) {
-                return $this->client->indexDocuments($this->engineName, $documentsChunk->values()->toArray());
+                return $this->client
+                    ->indexDocuments(new IndexDocuments($this->engineName, $documentsChunk->values()->toArray()))
+                    ->asArray();
             })
             ->flatten()
             ->toArray();
@@ -95,40 +108,33 @@ class Engine
      *
      * @see https://swiftype.com/documentation/app-search/api/documents
      *
-     * @param array $documentIds An array of document ids
-     *
      * @return array An array of true/false elements indicated success or failure of the creation or update of each individual document
      */
-    public function deleteDocuments($documentIds)
+    public function deleteDocuments(array $documentIds)
     {
         // no document ids to delete
         if (empty($documentIds)) {
             return [];
         }
 
-        return $this->client->deleteDocuments($this->engineName, $documentIds);
+        $response = $this->client->deleteDocuments(new DeleteDocuments($this->engineName, $documentIds));
+        return $response->asArray();
     }
 
     /**
      * Lists all documents. Note that this will only return a 100 results maximum.
-     *
-     * @param int $page
-     * @param int $pageSize
-     * @return mixed Documents
      */
-    public function listDocuments($page = 1, $pageSize = self::MAX_PAGE_SIZE)
-    {
-        return $this->client->listDocuments($this->engineName, $page, min(self::MAX_PAGE_SIZE, $pageSize));
+    public function listDocuments(int $page = 1, int $pageSize = self::MAX_PAGE_SIZE): Response {
+        $request = new ListDocuments($this->engineName);
+        $request->setPageSize(min(self::MAX_PAGE_SIZE, $pageSize));
+        $request->setCurrentPage($page);
+        return $this->client->listDocuments($request);
     }
 
     /**
      * Loops though each swiftype page and calls the action with the results.
-     *
-     * @param callable $action
-     * @param int $pageSize How many documents to show per page chunk
-     * @param int $page Which page to start from
      */
-    public function listAllDocumentsByPages(callable $action, $page = 1, $pageSize = self::MAX_PAGE_SIZE)
+    public function listAllDocumentsByPages(callable $action, int $page = 1, int $pageSize = self::MAX_PAGE_SIZE) : void
     {
         // start with page 1
         $currentPage = $page;
@@ -136,7 +142,7 @@ class Engine
         while ($currentPage <= $finalPage) {
 
             // Swiftype paginates results 100 per page
-            $chunkResult = $this->listDocuments($currentPage, $pageSize);
+            $chunkResult = $this->listDocuments($currentPage, $pageSize)->asArray();
 
             // pagination data
             $finalPage = $chunkResult['meta']['page']['total_pages'];
@@ -174,13 +180,13 @@ class Engine
     }
 
     /**
-     * Sends a request to swiftype to update the schema.
-     *
-     * @param array $schema
-     * @return mixed
+     * Sends a request to Swifttype to update the schema.
      */
-    public function updateSchema(array $schema)
-    {
-        return $this->client->updateSchema($this->engineName, $schema);
+    public function updateSchema(array $schema): Response {
+        $schemaData = new SchemaData;
+        foreach($schema as $key => $value) {
+            $schemaData->$key = $value;
+        }
+        return $this->client->putSchema(new PutSchema($this->engineName, $schemaData));
     }
 }
