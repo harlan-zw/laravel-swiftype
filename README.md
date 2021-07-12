@@ -33,6 +33,12 @@ SWIFTYPE_HOST_IDENTIFIER=
 
 Get your keys from the [Swiftype Credentials](https://app.swiftype.com/as#/credentials) page.
 
+When self-hosting an instance of AppSearch, you can use the API Endpoint displayed on the credentials page as 
+`SWIFTYPE_HOST_IDENTIFIER`, e.g.:
+
+```
+SWIFTYPE_HOST_IDENTIFIER=http://localhost:3002
+```
 
 ### API
 
