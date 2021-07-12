@@ -13,6 +13,7 @@
     "homepage": "https://github.com/loonpwn/swiftype",
     "keywords": ["Laravel", "Swiftype"],
     "require": {
+        "php": "^7.3|^8.0",
         "illuminate/support": "^6.0|^7.0|^8.0",
         "elastic/enterprise-search": "^7.13"
     },

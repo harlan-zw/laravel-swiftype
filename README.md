@@ -12,7 +12,7 @@ specific helpers to make integrating your Eloquent Models with Swiftype a breeze
 Via Composer
 
 ``` bash
-composer require loonpwn/laravel-swiftype
+composer require harlan-zw/laravel-swiftype
 ```
 
 If you do not run Laravel 5.5 (or higher), then add the service provider in `config/app.php`:
