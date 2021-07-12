@@ -12,7 +12,6 @@ use Elastic\EnterpriseSearch\AppSearch\Schema\SchemaData;
 use Elastic\EnterpriseSearch\AppSearch\Schema\SearchRequestParams;
 use Elastic\EnterpriseSearch\Response\Response;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use Loonpwn\Swiftype\Exceptions\MissingSwiftypeConfigException;
 
 class Engine
@@ -54,6 +53,7 @@ class Engine
             $options = new SearchRequestParams;
         }
         $options->query = $query;
+
         return $this->client->search(new Search($this->engineName, $options));
     }
 
@@ -118,23 +118,26 @@ class Engine
         }
 
         $response = $this->client->deleteDocuments(new DeleteDocuments($this->engineName, $documentIds));
+
         return $response->asArray();
     }
 
     /**
      * Lists all documents. Note that this will only return a 100 results maximum.
      */
-    public function listDocuments(int $page = 1, int $pageSize = self::MAX_PAGE_SIZE): Response {
+    public function listDocuments(int $page = 1, int $pageSize = self::MAX_PAGE_SIZE): Response
+    {
         $request = new ListDocuments($this->engineName);
         $request->setPageSize(min(self::MAX_PAGE_SIZE, $pageSize));
         $request->setCurrentPage($page);
+
         return $this->client->listDocuments($request);
     }
 
     /**
      * Loops though each swiftype page and calls the action with the results.
      */
-    public function listAllDocumentsByPages(callable $action, int $page = 1, int $pageSize = self::MAX_PAGE_SIZE) : void
+    public function listAllDocumentsByPages(callable $action, int $page = 1, int $pageSize = self::MAX_PAGE_SIZE): void
     {
         // start with page 1
         $currentPage = $page;
@@ -182,11 +185,13 @@ class Engine
     /**
      * Sends a request to Swifttype to update the schema.
      */
-    public function updateSchema(array $schema): Response {
+    public function updateSchema(array $schema): Response
+    {
         $schemaData = new SchemaData;
-        foreach($schema as $key => $value) {
+        foreach ($schema as $key => $value) {
             $schemaData->$key = $value;
         }
+
         return $this->client->putSchema(new PutSchema($this->engineName, $schemaData));
     }
 }
