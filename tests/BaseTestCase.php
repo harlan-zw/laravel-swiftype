@@ -71,7 +71,7 @@ class BaseTestCase extends \Orchestra\Testbench\TestCase
     }
 
     /**
-     * @param int $count
+     * @param  int  $count
      * @return Collection
      */
     protected function indexSeedDocuments($count = 5)
