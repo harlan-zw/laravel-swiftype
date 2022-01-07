@@ -8,7 +8,6 @@ use Elastic\EnterpriseSearch\AppSearch\Request\IndexDocuments;
 use Elastic\EnterpriseSearch\AppSearch\Request\ListDocuments;
 use Elastic\EnterpriseSearch\AppSearch\Request\PutSchema;
 use Elastic\EnterpriseSearch\AppSearch\Request\Search;
-use Elastic\EnterpriseSearch\AppSearch\Schema\SchemaData;
 use Elastic\EnterpriseSearch\AppSearch\Schema\SchemaUpdateRequest;
 use Elastic\EnterpriseSearch\AppSearch\Schema\SearchRequestParams;
 use Elastic\EnterpriseSearch\Response\Response;
@@ -42,10 +41,8 @@ class Engine
      *
      * @see https://swiftype.com/documentation/app-search/api/search
      *
-     * @param string $query The search query
-     *
+     * @param  string  $query  The search query
      * @param $options SearchRequestParams|null An array of the search query, filters, sorts, etc to apply to the search.
-     *
      * @return Response An array of search results matching the issued query
      */
     public function search(string $query, SearchRequestParams $options = null)
@@ -76,7 +73,7 @@ class Engine
      *
      * @see https://swiftype.com/documentation/app-search/api/documents
      *
-     * @param array $documents
+     * @param  array  $documents
      * @return array An array of true/false elements indicated success or failure of the creation or update of each individual document
      */
     public function indexDocuments(array $documents)
@@ -95,8 +92,7 @@ class Engine
     /**
      * Delete a document from the engine using the document id.
      *
-     * @param mixed $documentId The document to delete
-     *
+     * @param  mixed  $documentId  The document to delete
      * @return array An array of true/false elements indicated success or failure of the creation or update of each individual document
      */
     public function deleteDocument($documentId)

@@ -34,6 +34,7 @@ trait IsSwiftypeDocument
 
     /**
      * Should model changes be pushed to Swiftype. Excludes deleting.
+     *
      * @return bool
      */
     public function shouldSyncSwiftypeOnSave()
@@ -43,6 +44,7 @@ trait IsSwiftypeDocument
 
     /**
      * Get the mapped attribute values for Swiftype.
+     *
      * @return mixed|null
      */
     public function getSwiftypeAttributes()
