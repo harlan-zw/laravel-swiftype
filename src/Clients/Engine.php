@@ -9,6 +9,7 @@ use Elastic\EnterpriseSearch\AppSearch\Request\ListDocuments;
 use Elastic\EnterpriseSearch\AppSearch\Request\PutSchema;
 use Elastic\EnterpriseSearch\AppSearch\Request\Search;
 use Elastic\EnterpriseSearch\AppSearch\Schema\SchemaData;
+use Elastic\EnterpriseSearch\AppSearch\Schema\SchemaUpdateRequest;
 use Elastic\EnterpriseSearch\AppSearch\Schema\SearchRequestParams;
 use Elastic\EnterpriseSearch\Response\Response;
 use Illuminate\Support\Collection;
@@ -45,12 +46,12 @@ class Engine
      *
      * @param $options SearchRequestParams|null An array of the search query, filters, sorts, etc to apply to the search.
      *
-     * @return array An array of search results matching the issued query
+     * @return Response An array of search results matching the issued query
      */
     public function search(string $query, SearchRequestParams $options = null)
     {
         if ($options === null) {
-            $options = new SearchRequestParams;
+            $options = new SearchRequestParams($query);
         }
         $options->query = $query;
 
@@ -187,7 +188,7 @@ class Engine
      */
     public function updateSchema(array $schema): Response
     {
-        $schemaData = new SchemaData;
+        $schemaData = new SchemaUpdateRequest;
         foreach ($schema as $key => $value) {
             $schemaData->$key = $value;
         }
