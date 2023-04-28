@@ -140,7 +140,6 @@ class Engine
         $currentPage = $page;
         $finalPage = 1;
         while ($currentPage <= $finalPage) {
-
             // Swiftype paginates results 100 per page
             $chunkResult = $this->listDocuments($currentPage, $pageSize)->asArray();
 
