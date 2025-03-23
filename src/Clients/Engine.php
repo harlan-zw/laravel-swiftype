@@ -42,7 +42,7 @@ class Engine
      * @see https://swiftype.com/documentation/app-search/api/search
      *
      * @param  string  $query  The search query
-     * @param $options SearchRequestParams|null An array of the search query, filters, sorts, etc to apply to the search.
+     * @param  $options  SearchRequestParams|null An array of the search query, filters, sorts, etc to apply to the search.
      * @return Response An array of search results matching the issued query
      */
     public function search(string $query, SearchRequestParams $options = null)
@@ -60,7 +60,7 @@ class Engine
      *
      * @see https://swiftype.com/documentation/app-search/api/documents
      *
-     * @param $document
+     * @param  $document
      * @return array An array of true/false elements indicated success or failure of the creation or update of each individual document
      */
     public function indexDocument($document)
@@ -140,7 +140,6 @@ class Engine
         $currentPage = $page;
         $finalPage = 1;
         while ($currentPage <= $finalPage) {
-
             // Swiftype paginates results 100 per page
             $chunkResult = $this->listDocuments($currentPage, $pageSize)->asArray();
 

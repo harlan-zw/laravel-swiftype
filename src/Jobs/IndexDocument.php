@@ -18,7 +18,7 @@ class IndexDocument implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param $data
+     * @param  $data
      */
     public function __construct($document)
     {

@@ -18,7 +18,7 @@ class DeleteDocument implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param $documentId
+     * @param  $documentId
      */
     public function __construct($documentId)
     {
